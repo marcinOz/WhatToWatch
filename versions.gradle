@@ -8,4 +8,8 @@ ext {
 
   daggerVersion = '2.14.1'
   supportVersion = '27.0.2'
+
+  okHttpVersion = '3.10.0'
+  retrofitVersion = '2.3.0'
+  gsonVersion = '2.8.2'
 }

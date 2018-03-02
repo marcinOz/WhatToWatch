@@ -5,6 +5,7 @@ import dagger.Component
 import dagger.BindsInstance
 import dagger.android.AndroidInjectionModule
 import pl.oziem.whattowatch.WTWApplication
+import pl.oziem.datasource.DataSourceModule
 
 
 /**
@@ -14,7 +15,8 @@ import pl.oziem.whattowatch.WTWApplication
 @Component(modules = [
   (AndroidInjectionModule::class),
   (ApplicationModule::class),
-  (ActivityBuilder::class)
+  (ActivityBuilder::class),
+  (DataSourceModule::class)
 ])
 interface AppComponent {
 
