@@ -6,6 +6,7 @@ It's written in Kotlin and use TMDb API.
 It also use:
  - Dagger 2,
  - Retrofit 2,
+ - RxJava 2, RxAndroid, RxKotlin
  - OkHttp 3,
  - Gson,
  - Firebase - not all features ;)
