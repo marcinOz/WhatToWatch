@@ -8,6 +8,7 @@ ext {
 
   daggerVersion = '2.14.1'
   supportVersion = '27.0.2'
+  firebaseVersion = '11.8.0'
 
   okHttpVersion = '3.10.0'
   retrofitVersion = '2.3.0'

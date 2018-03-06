@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "275943683784",
+    "firebase_url": "https://what-towatch.firebaseio.com",
+    "project_id": "what-towatch",
+    "storage_bucket": "what-towatch.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275943683784:android:c5b99ff4fe918608",
+        "android_client_info": {
+          "package_name": "pl.oziem.whattowatch"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275943683784-5fb0jrv1sciga4nm2fvr5k5kq81m2kgs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnIGQkzOHQKz1maHiQelM4IuPZ3DxzDPY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

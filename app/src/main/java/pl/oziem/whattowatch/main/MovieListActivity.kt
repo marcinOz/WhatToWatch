@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.design.widget.Snackbar
 import dagger.android.AndroidInjection
+import io.reactivex.rxkotlin.subscribeBy
 
 import pl.oziem.whattowatch.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_movie_list.*
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
 import pl.oziem.whattowatch.MovieDetailActivity
 import pl.oziem.whattowatch.R
+import pl.oziem.whattowatch.firebase.FirebaseRemoteConfigHelper
 import javax.inject.Inject
 
 /**
@@ -31,6 +33,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   private var mTwoPane: Boolean = false
 
   @Inject lateinit var presenter: MovieListContract.Presenter
+  @Inject lateinit var firebaseRemoteConfig: FirebaseRemoteConfigHelper
 
   override fun onCreate(savedInstanceState: Bundle?) {
     AndroidInjection.inject(this)
@@ -54,7 +57,11 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     }
 
     setupRecyclerView(movie_list)
-    presenter.getMovieById(2)
+
+    firebaseRemoteConfig.fetch(this).subscribeBy (
+      onComplete = { presenter.getMovieById(2) },
+      onError = { setText("server error") }
+    )
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
