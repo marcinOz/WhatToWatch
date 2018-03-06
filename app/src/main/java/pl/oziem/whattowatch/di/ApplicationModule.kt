@@ -10,7 +10,7 @@ import javax.inject.Singleton
  * Created by Marcin Oziemski on 01.03.2018.
  * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
  */
-@Module
+@Module()
 class ApplicationModule {
   @Provides
   @Singleton

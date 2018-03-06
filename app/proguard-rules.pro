@@ -61,4 +61,4 @@
 #okHttp 3
 -dontwarn okhttp3.**
 -keep class okhttp3.* { *; }
--dontwarn okio.
+-dontwarn okio.**

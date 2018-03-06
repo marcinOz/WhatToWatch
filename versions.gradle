@@ -12,4 +12,8 @@ ext {
   okHttpVersion = '3.10.0'
   retrofitVersion = '2.3.0'
   gsonVersion = '2.8.2'
+
+  rxVersion = '2.1.1'
+  rxAndroidVersion = '2.0.1'
+  rxKotlinVersion = '2.1.0'
 }
