@@ -35,6 +35,8 @@ dependencies {
   // if you use the support libraries
   kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+  implementation "com.google.android.gms:play-services-base:$gmsVersion"
+
   implementation "com.android.support:appcompat-v7:$supportVersion"
   implementation "com.android.support:support-v4:$supportVersion"
   implementation "com.android.support:recyclerview-v7:$supportVersion"

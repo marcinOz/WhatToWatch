@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
+import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
@@ -52,7 +53,10 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     }
 
     setupRecyclerView(movie_list)
-    presenter.initDownloadData(this)
+    GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
+      .addOnCompleteListener { task ->
+        if (task.isSuccessful) presenter.initDownloadData(this)
+      }
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
