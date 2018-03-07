@@ -1,11 +1,10 @@
-package pl.oziem.whattowatch.firebase
+package pl.oziem.datasource.firebase
 
 import android.app.Activity
-import android.widget.Toast
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import io.reactivex.Completable
-import pl.oziem.whattowatch.BuildConfig
+import pl.oziem.datasource.BuildConfig
 import java.util.concurrent.TimeUnit
 
 
@@ -13,7 +12,7 @@ import java.util.concurrent.TimeUnit
  * Created by Marcin Oziemski on 06.03.2018.
  * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
  */
-class FirebaseRemoteConfigHelper {
+class FirebaseRemoteConfigHelperImp : FirebaseRemoteConfigHelper {
 
   companion object {
     const val TMDB_API_KEY = "themoviedb_api_key"
@@ -29,23 +28,20 @@ class FirebaseRemoteConfigHelper {
     firebaseRemoteConfig.setConfigSettings(configSettings)
   }
 
-  fun fetch(activity: Activity): Completable =
+  override fun fetch(activity: Activity): Completable =
     Completable.create { emitter ->
       firebaseRemoteConfig.fetch(CACHE_EXPIRATION_SEC)
         .addOnCompleteListener(activity) { task ->
           if (task.isSuccessful) {
-            Toast.makeText(activity, "Fetch Succeeded", Toast.LENGTH_SHORT).show()
-
             // After config data is successfully fetched, it must be activated before newly fetched
             // values are returned.
             firebaseRemoteConfig.activateFetched()
             emitter.onComplete()
           } else {
-            Toast.makeText(activity, "Fetch Failed", Toast.LENGTH_SHORT).show()
             emitter.onError(RuntimeException("Firebase RemoteConfig Fetch Failed"))
           }
         }
     }
 
-  fun getTMDbApiKey(): String = firebaseRemoteConfig.getString(TMDB_API_KEY, "")
+  override fun getTMDbApiKey(): String = firebaseRemoteConfig.getString(TMDB_API_KEY)
 }
