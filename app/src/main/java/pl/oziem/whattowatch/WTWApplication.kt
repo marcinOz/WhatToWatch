@@ -5,6 +5,7 @@ import android.content.Context
 import pl.oziem.whattowatch.di.AppComponent
 import pl.oziem.whattowatch.di.DaggerAppComponent
 import android.app.Activity
+import android.os.Bundle
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import javax.inject.Inject
  * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
  */
 // WTW - What To Watch
-class WTWApplication : Application(), HasActivityInjector {
+class WTWApplication : Application(), HasActivityInjector, Application.ActivityLifecycleCallbacks {
 
   companion object {
     fun getComponent(context: Context) =
@@ -29,6 +30,7 @@ class WTWApplication : Application(), HasActivityInjector {
 
   override fun onCreate() {
     super.onCreate()
+    registerActivityLifecycleCallbacks(this)
     appComponent = DaggerAppComponent
       .builder()
       .application(this)
@@ -40,4 +42,14 @@ class WTWApplication : Application(), HasActivityInjector {
   override fun activityInjector(): DispatchingAndroidInjector<Activity> {
     return activityDispatchingAndroidInjector
   }
+
+  override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+  }
+
+  override fun onActivityStarted(activity: Activity) {}
+  override fun onActivityResumed(activity: Activity) {}
+  override fun onActivityPaused(activity: Activity) {}
+  override fun onActivityStopped(activity: Activity) {}
+  override fun onActivityDestroyed(activity: Activity) {}
+  override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {}
 }

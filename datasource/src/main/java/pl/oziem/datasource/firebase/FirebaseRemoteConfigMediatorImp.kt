@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
  * Created by Marcin Oziemski on 06.03.2018.
  * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
  */
-class FirebaseRemoteConfigHelperImp : FirebaseRemoteConfigHelper {
+class FirebaseRemoteConfigMediatorImp : FirebaseRemoteConfigMediator {
 
   companion object {
     const val TMDB_API_KEY = "themoviedb_api_key"
