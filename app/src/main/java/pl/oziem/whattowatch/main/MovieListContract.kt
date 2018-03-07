@@ -1,5 +1,7 @@
 package pl.oziem.whattowatch.main
 
+import android.app.Activity
+
 /**
  * Created by MarcinOz on 2018-03-06.
  * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
@@ -10,5 +12,6 @@ interface MovieListContract {
   }
   interface Presenter {
     fun getMovieById(movieId: Int)
+    fun initDownloadData(activity: Activity)
   }
 }

@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import pl.oziem.datasource.firebase.FirebaseRemoteConfigHelper
+import pl.oziem.datasource.firebase.FirebaseRemoteConfigHelperImp
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -57,7 +59,12 @@ open class DataSourceModule {
 
   @Provides
   @Singleton
-  fun provideDataProvider(apiService: ApiService): DataProvider {
-    return DataProviderImp(apiService)
+  fun provideDataProvider(apiService: ApiService,
+                          firebaseRemoteConfigHelper: FirebaseRemoteConfigHelper): DataProvider {
+    return DataProviderImp(apiService, firebaseRemoteConfigHelper)
   }
+
+  @Provides
+  @Singleton
+  fun provideFirebaseRemoteConfigHelper(): FirebaseRemoteConfigHelper = FirebaseRemoteConfigHelperImp()
 }

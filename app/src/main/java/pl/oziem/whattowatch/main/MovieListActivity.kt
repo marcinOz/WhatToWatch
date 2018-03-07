@@ -1,17 +1,15 @@
 package pl.oziem.whattowatch.main
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.support.design.widget.Snackbar
 import dagger.android.AndroidInjection
-
-import pl.oziem.whattowatch.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_movie_list.*
-
 import kotlinx.android.synthetic.main.movie_list.*
 import pl.oziem.whattowatch.MovieDetailActivity
 import pl.oziem.whattowatch.R
+import pl.oziem.whattowatch.dummy.DummyContent
 import javax.inject.Inject
 
 /**
@@ -54,7 +52,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     }
 
     setupRecyclerView(movie_list)
-    presenter.getMovieById(2)
+    presenter.initDownloadData(this)
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {

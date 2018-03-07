@@ -58,6 +58,7 @@
 
 #Dagger 2
 -dontwarn com.google.errorprone.annotations.**
+
 #okHttp 3
 -dontwarn okhttp3.**
 -keep class okhttp3.* { *; }
