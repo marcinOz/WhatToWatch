@@ -6,7 +6,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import pl.oziem.datasource.firebase.FirebaseRemoteConfigMediator
-import pl.oziem.datasource.models.Movie
+import pl.oziem.datasource.models.MovieDetails
 import pl.oziem.datasource.services.ApiService
 
 /**
@@ -14,7 +14,8 @@ import pl.oziem.datasource.services.ApiService
  * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
  */
 class DataProviderImp(private val apiService: ApiService,
-                      private val firebaseRemoteConfigMediator: FirebaseRemoteConfigMediator) : DataProvider {
+                      private val firebaseRemoteConfigMediator: FirebaseRemoteConfigMediator)
+  : DataProvider {
 
   private fun <T> Single<T>.defaultThreads(): Single<T> =
     this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -22,7 +23,7 @@ class DataProviderImp(private val apiService: ApiService,
   override fun fetchRemoteConfig(activity: Activity): Completable =
     firebaseRemoteConfigMediator.fetch(activity)
 
-  override fun getMovieById(movieId: Int): Single<Movie> =
-    apiService.getMovieById(movieId, firebaseRemoteConfigMediator.getTMDbApiKey())
+  override fun getMovieDetailsById(movieId: Int): Single<MovieDetails> =
+    apiService.getMovieDetailsById(movieId, firebaseRemoteConfigMediator.getTMDbApiKey())
       .defaultThreads()
 }

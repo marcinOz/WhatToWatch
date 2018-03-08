@@ -1,8 +1,7 @@
 package pl.oziem.datasource.services
 
 import io.reactivex.Single
-import pl.oziem.datasource.models.Movie
-import retrofit2.Response
+import pl.oziem.datasource.models.MovieDetails
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -14,6 +13,6 @@ import retrofit2.http.Query
 interface ApiService {
 
   @GET("3/movie/{id}")
-  fun getMovieById(@Path("id") movieId: Int,
-                   @Query("api_key") apiKey: String): Single<Movie>
+  fun getMovieDetailsById(@Path("id") movieId: Int,
+                          @Query("api_key") apiKey: String): Single<MovieDetails>
 }

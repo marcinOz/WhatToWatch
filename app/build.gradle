@@ -5,6 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
   compileSdkVersion project.compileSdkVersion
+  buildToolsVersion project.buildToolsVersion
 
   defaultConfig {
     applicationId "pl.oziem.whattowatch"
