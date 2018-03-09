@@ -17,13 +17,13 @@ class MovieListPresenter(private val view: MovieListContract.View,
 
   override fun initDownloadData(activity: Activity) {
     dataProvider.fetchRemoteConfig(activity).subscribeBy (
-      onComplete = { getMovieDetailsById(2) },
+      onComplete = { getMovieDiscover() },
       onError = { view.setText("server error") }
     )
   }
 
-  override fun getMovieDetailsById(movieId: Int) {
-    dataProvider.getMovieDetailsById(movieId).subscribeBy(
+  override fun getMovieDiscover() {
+    dataProvider.getMovieDiscover().subscribeBy(
       onSuccess = { result -> view.setText(result.toString())},
       onError = { error -> Log.d(TAG, error.toString())}
     )

@@ -7,6 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import pl.oziem.datasource.firebase.FirebaseRemoteConfigMediator
 import pl.oziem.datasource.models.MovieDetails
+import pl.oziem.datasource.models.MovieDiscoveryResponse
 import pl.oziem.datasource.services.ApiService
 
 /**
@@ -17,6 +18,10 @@ class DataProviderImp(private val apiService: ApiService,
                       private val firebaseRemoteConfigMediator: FirebaseRemoteConfigMediator)
   : DataProvider {
 
+  companion object {
+      private const val API_VERSION = 3
+  }
+
   private fun <T> Single<T>.defaultThreads(): Single<T> =
     this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
 
@@ -24,6 +29,10 @@ class DataProviderImp(private val apiService: ApiService,
     firebaseRemoteConfigMediator.fetch(activity)
 
   override fun getMovieDetailsById(movieId: Int): Single<MovieDetails> =
-    apiService.getMovieDetailsById(movieId, firebaseRemoteConfigMediator.getTMDbApiKey())
+    apiService.getMovieDetailsById(API_VERSION, movieId, firebaseRemoteConfigMediator.getTMDbApiKey())
+      .defaultThreads()
+
+  override fun getMovieDiscover(): Single<MovieDiscoveryResponse> =
+    apiService.getMovieDiscover(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
       .defaultThreads()
 }

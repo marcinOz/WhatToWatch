@@ -4,6 +4,7 @@ import android.app.Activity
 import io.reactivex.Completable
 import io.reactivex.Single
 import pl.oziem.datasource.models.MovieDetails
+import pl.oziem.datasource.models.MovieDiscoveryResponse
 
 /**
  * Created by MarcinOz on 2018-03-02.
@@ -12,4 +13,5 @@ import pl.oziem.datasource.models.MovieDetails
 interface DataProvider {
   fun getMovieDetailsById(movieId: Int): Single<MovieDetails>
   fun fetchRemoteConfig(activity: Activity): Completable
+  fun getMovieDiscover(): Single<MovieDiscoveryResponse>
 }

@@ -11,7 +11,7 @@ interface MovieListContract {
     fun setText(result: String)
   }
   interface Presenter {
-    fun getMovieDetailsById(movieId: Int)
+    fun getMovieDiscover()
     fun initDownloadData(activity: Activity)
   }
 }

@@ -1,15 +1,15 @@
 package pl.oziem.whattowatch
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
-import pl.oziem.whattowatch.di.AppComponent
-import pl.oziem.whattowatch.di.DaggerAppComponent
-import android.app.Activity
 import android.os.Bundle
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
+import pl.oziem.datasource.analytics.AnalyticsMediator
+import pl.oziem.whattowatch.di.AppComponent
+import pl.oziem.whattowatch.di.DaggerAppComponent
 import javax.inject.Inject
-
 
 
 /**
@@ -26,6 +26,8 @@ class WTWApplication : Application(), HasActivityInjector, Application.ActivityL
 
   @Inject
   lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+  @Inject
+  lateinit var analyticsMediator: AnalyticsMediator
   lateinit var appComponent: AppComponent
 
   override fun onCreate() {
@@ -44,6 +46,7 @@ class WTWApplication : Application(), HasActivityInjector, Application.ActivityL
   }
 
   override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
+    analyticsMediator.onActivityCreate(activity)
   }
 
   override fun onActivityStarted(activity: Activity) {}
