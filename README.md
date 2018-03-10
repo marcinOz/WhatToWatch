@@ -1,4 +1,4 @@
-# WhatToWatch
+# WhatToWatch <img src="https://build.appcenter.ms/v0.1/apps/7a6fd451-f674-4483-819e-4c5ca1e2bad8/branches/master/badge"/>
 My Playground App for Movie Library 
 
 It's written in Kotlin and use TMDb API.
