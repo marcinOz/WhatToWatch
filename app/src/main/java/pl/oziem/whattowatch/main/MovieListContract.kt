@@ -13,7 +13,6 @@ interface MovieListContract {
     fun showError(message: String)
     fun populate(movieDiscoveryResponse: MovieDiscoveryResponse)
     fun showEmptyMessage()
-    fun setText(result: String)
   }
   interface Presenter {
     fun getMovieDiscover()

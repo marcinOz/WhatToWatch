@@ -22,22 +22,14 @@
   </android.support.design.widget.AppBarLayout>
 
 
-  <LinearLayout
+  <FrameLayout
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <TextView
-      android:id="@+id/text"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_margin="@dimen/text_margin"
-      android:text="@string/app_name" />
-
     <include layout="@layout/movie_list" />
-  </LinearLayout>
+  </FrameLayout>
 
   <android.support.design.widget.FloatingActionButton
     android:id="@+id/fab"
@@ -47,5 +39,24 @@
     android:layout_margin="@dimen/fab_margin"
     app:srcCompat="@android:drawable/ic_dialog_email" />
 
+  <TextView
+    android:id="@+id/messageTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    tools:text="Message Lorem ipsum"
+    android:textSize="18sp"
+    android:textColor="@color/colorAccent"
+    android:visibility="gone"
+    tools:visibility="visible"/>
+
+
+  <ProgressBar
+    android:id="@+id/progressBar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:visibility="gone"
+    tools:visibility="visible"/>
 
 </android.support.design.widget.CoordinatorLayout>

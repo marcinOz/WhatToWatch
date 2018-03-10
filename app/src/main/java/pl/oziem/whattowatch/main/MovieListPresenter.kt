@@ -1,7 +1,6 @@
 package pl.oziem.whattowatch.main
 
 import android.app.Activity
-import android.util.Log
 import io.reactivex.rxkotlin.subscribeBy
 import pl.oziem.datasource.DataProvider
 
@@ -12,20 +11,24 @@ import pl.oziem.datasource.DataProvider
 class MovieListPresenter(private val view: MovieListContract.View,
                          private val dataProvider: DataProvider) : MovieListContract.Presenter {
   companion object {
-      const val TAG = "MovieListPresenter"
+    const val TAG = "MovieListPresenter"
   }
 
   override fun initDownloadData(activity: Activity) {
-    dataProvider.fetchRemoteConfig(activity).subscribeBy (
+    view.showLoading()
+    dataProvider.fetchRemoteConfig(activity).subscribeBy(
       onComplete = { getMovieDiscover() },
-      onError = { view.setText("server error") }
+      onError = { view.showError("server error") }
     )
   }
 
   override fun getMovieDiscover() {
     dataProvider.getMovieDiscover().subscribeBy(
-      onSuccess = { result -> view.setText(result.toString())},
-      onError = { error -> Log.d(TAG, error.toString())}
+      onSuccess = { result ->
+        if (result.totalResults == 0) view.showEmptyMessage()
+        else view.populate(result)
+      },
+      onError = { error -> view.showError(error.message ?: "server error") }
     )
   }
 }

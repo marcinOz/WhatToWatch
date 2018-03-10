@@ -33,6 +33,10 @@
         android:name="android.support.PARENT_ACTIVITY"
         android:value="pl.oziem.whattowatch.main.MovieListActivity" />
     </activity>
+
+    <meta-data
+      android:name="io.fabric.ApiKey"
+      android:value="7795f3390cd2ef9c8ea5b4f0dd3f329a33e7c619" />
   </application>
 
 </manifest>

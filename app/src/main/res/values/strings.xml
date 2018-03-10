@@ -3,4 +3,5 @@
     <string name="title_movie_detail">Movie Detail</string>
 
     <string name="tmdb_license">This product uses the TMDb API but is not endorsed or certified by TMDb.</string>
+  <string name="no_content">There is no content.</string>
 </resources>

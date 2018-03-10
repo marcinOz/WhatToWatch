@@ -6,17 +6,19 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.movie_list_content.view.*
+import pl.oziem.datasource.models.Movie
 import pl.oziem.whattowatch.MovieDetailActivity
 import pl.oziem.whattowatch.MovieDetailFragment
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.dummy.DummyContent
 
-class SimpleItemRecyclerViewAdapter(private val mParentActivity: MovieListActivity,
-                                    private val mValues: List<DummyContent.DummyItem>,
-                                    private val mTwoPane: Boolean) :
-  RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+class MovieListAdapter(private val mParentActivity: MovieListActivity,
+                       private val mValues: List<Movie>,
+                       private val mTwoPane: Boolean) :
+  RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
 
   private val mOnClickListener: View.OnClickListener
 
@@ -50,8 +52,8 @@ class SimpleItemRecyclerViewAdapter(private val mParentActivity: MovieListActivi
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val item = mValues[position]
-    holder.mIdView.text = item.id
-    holder.mContentView.text = item.content
+//    holder.poster.text = item.id
+    holder.title.text = item.title
 
     with(holder.itemView) {
       tag = item
@@ -64,7 +66,7 @@ class SimpleItemRecyclerViewAdapter(private val mParentActivity: MovieListActivi
   }
 
   inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-    val mIdView: TextView = mView.id_text
-    val mContentView: TextView = mView.content
+    val poster: ImageView = mView.poster
+    val title: TextView = mView.title
   }
 }

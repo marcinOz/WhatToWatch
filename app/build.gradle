@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+
+repositories {
+  maven { url 'https://maven.fabric.io/public' }
+}
 
 android {
   compileSdkVersion project.compileSdkVersion
@@ -14,6 +19,7 @@ android {
     versionCode 1
     versionName "1.0"
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    vectorDrawables.useSupportLibrary = true
   }
   buildTypes {
     release {
