@@ -9,6 +9,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 import pl.oziem.datasource.DataProvider
+import pl.oziem.datasource.models.Movie
 import pl.oziem.datasource.models.MovieDiscoveryResponse
 import pl.oziem.whattowatch.main.MovieListContract
 import pl.oziem.whattowatch.main.MovieListPresenter
@@ -74,13 +75,15 @@ class MovieListPresenterTest {
     `when`(dataProvider.fetchRemoteConfig(activity))
       .thenReturn(Completable.create { e -> e.onComplete() })
 
-    val discoverResponse = MovieDiscoveryResponse(totalResults = Random().nextInt(999) + 1)
+    val discoverResponse = MovieDiscoveryResponse(
+      totalResults = Random().nextInt(999) + 1,
+      movies = listOf(Movie()))
     `when`(dataProvider.getMovieDiscover())
       .thenReturn(Single.just(discoverResponse))
 
     presenter.initDownloadData(activity)
 
     verify(view).showLoading()
-    verify(view).populate(discoverResponse)
+    verify(view).populate(discoverResponse.movies!!)
   }
 }

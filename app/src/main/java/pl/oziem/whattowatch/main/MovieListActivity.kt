@@ -12,7 +12,6 @@ import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
 import pl.oziem.datasource.models.Movie
-import pl.oziem.datasource.models.MovieDiscoveryResponse
 import pl.oziem.whattowatch.R
 import javax.inject.Inject
 
@@ -22,7 +21,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   private var mTwoPane: Boolean = false
   private var content: MutableList<Movie> = mutableListOf()
 
-  @Inject lateinit var presenter: MovieListContract.Presenter
+  @Inject
+  lateinit var presenter: MovieListContract.Presenter
 
   override fun onCreate(savedInstanceState: Bundle?) {
     AndroidInjection.inject(this)
@@ -42,11 +42,21 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
       mTwoPane = true
     }
 
+    if (savedInstanceState != null) {
+      content.addAll(presenter.readSavedInstanceState(savedInstanceState))
+    }
+
     setupRecyclerView(movie_list)
+
+    if (content.isNotEmpty()) return
     GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
       .addOnCompleteListener { task ->
         if (task.isSuccessful) presenter.initDownloadData(this)
       }
+  }
+
+  override fun onSaveInstanceState(outState: Bundle?) {
+    super.onSaveInstanceState(presenter.saveInstanceState(outState))
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -63,8 +73,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     showLoading(false)
   }
 
-  override fun populate(movieDiscoveryResponse: MovieDiscoveryResponse) {
-    movieDiscoveryResponse.movies?.apply { content.addAll(this) }
+  override fun populate(movies: List<Movie>) {
+    content.addAll(movies)
     movie_list.adapter.notifyDataSetChanged()
     showLoading(false)
   }
