@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import pl.oziem.datasource.analytics.AnalyticsMediator
@@ -13,15 +14,18 @@ import javax.inject.Inject
 
 
 /**
- * Created by Marcin Oziemski on 01.03.2018.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by Marcin Oziemski on 01.03.2018 WhatToWatch.
+*/
 // WTW - What To Watch
 class WTWApplication : Application(), HasActivityInjector, Application.ActivityLifecycleCallbacks {
 
   companion object {
     fun getComponent(context: Context) =
       (context.applicationContext as WTWApplication).appComponent
+
+    fun getImageLoader(view: View) = getImageLoader(view.context)
+    fun getImageLoader(context: Context) =
+      (context.applicationContext as WTWApplication).appComponent.getImageLoader().with(context)
   }
 
   @Inject

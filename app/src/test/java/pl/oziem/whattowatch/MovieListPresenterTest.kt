@@ -6,7 +6,8 @@ import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import pl.oziem.datasource.DataProvider
 import pl.oziem.datasource.models.Movie
@@ -39,20 +40,21 @@ class MovieListPresenterTest {
     presenter.initDownloadData(activity)
 
     verify(view).showLoading()
-    verify(view).showError(anyString())
+    verify(view).showError(null)
   }
 
   @Test
   fun initDownloadData_test_fetchSuccess_discovery_fail() {
+    val errorMessage = "error message"
     `when`(dataProvider.fetchRemoteConfig(activity))
       .thenReturn(Completable.create { e -> e.onComplete() })
     `when`(dataProvider.getMovieDiscover())
-      .thenReturn(Single.create { e -> e.onError(RuntimeException()) })
+      .thenReturn(Single.create { e -> e.onError(RuntimeException(errorMessage)) })
 
     presenter.initDownloadData(activity)
 
     verify(view).showLoading()
-    verify(view).showError(anyString())
+    verify(view).showError(errorMessage)
   }
 
   @Test

@@ -8,13 +8,11 @@ import pl.oziem.datasource.models.Movie
 import pl.oziem.datasource.models.MovieDiscoveryResponse
 
 /**
- * Created by MarcinOz on 2018-03-06.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by MarcinOz on 2018-03-06 WhatToWatch.
+*/
 class MovieListPresenter(private val view: MovieListContract.View,
                          private val dataProvider: DataProvider) : MovieListContract.Presenter {
   companion object {
-    const val TAG = "MovieListPresenter"
     private const val MOVIE_DISCOVER_RESPONSE = "MOVIE_DISCOVER_RESPONSE"
   }
 
@@ -33,7 +31,7 @@ class MovieListPresenter(private val view: MovieListContract.View,
     view.showLoading()
     dataProvider.fetchRemoteConfig(activity).subscribeBy(
       onComplete = { getMovieDiscover() },
-      onError = { view.showError("server error") }
+      onError = { error -> view.showError(error.message) }
     )
   }
 
@@ -44,7 +42,7 @@ class MovieListPresenter(private val view: MovieListContract.View,
         if (result.totalResults == 0) view.showEmptyMessage()
         else result.movies?.apply { view.populate(this) }
       },
-      onError = { error -> view.showError(error.message ?: "server error") }
+      onError = { error -> view.showError(error.message) }
     )
   }
 }

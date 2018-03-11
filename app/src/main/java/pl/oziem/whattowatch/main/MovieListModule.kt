@@ -6,9 +6,8 @@ import pl.oziem.datasource.DataProvider
 
 
 /**
- * Created by MarcinOz on 2018-03-06.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by MarcinOz on 2018-03-06 WhatToWatch.
+*/
 @Module
 class MovieListModule {
   @Provides

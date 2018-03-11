@@ -13,6 +13,7 @@ import pl.oziem.datasource.models.Movie
 import pl.oziem.whattowatch.MovieDetailActivity
 import pl.oziem.whattowatch.MovieDetailFragment
 import pl.oziem.whattowatch.R
+import pl.oziem.whattowatch.WTWApplication
 import pl.oziem.whattowatch.dummy.DummyContent
 
 class MovieListAdapter(private val mParentActivity: MovieListActivity,
@@ -52,7 +53,9 @@ class MovieListAdapter(private val mParentActivity: MovieListActivity,
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val item = mValues[position]
-//    holder.poster.text = item.id
+    item.posterPath?.apply {
+      WTWApplication.getImageLoader(holder.itemView).load(this).into(holder.poster)
+    }
     holder.title.text = item.title
 
     with(holder.itemView) {

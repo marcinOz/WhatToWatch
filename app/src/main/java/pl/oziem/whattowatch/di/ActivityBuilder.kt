@@ -6,9 +6,8 @@ import pl.oziem.whattowatch.main.MovieListActivity
 import pl.oziem.whattowatch.main.MovieListModule
 
 /**
- * Created by Marcin Oziemski on 01.03.2018.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by Marcin Oziemski on 01.03.2018 WhatToWatch.
+*/
 @Module
 abstract class ActivityBuilder {
 

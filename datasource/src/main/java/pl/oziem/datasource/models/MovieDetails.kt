@@ -3,9 +3,8 @@ package pl.oziem.datasource.models
 import com.google.gson.annotations.SerializedName
 
 /**
- * Created by MarcinOz on 2018-03-02.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by MarcinOz on 2018-03-02 WhatToWatch.
+*/
 data class MovieDetails(@SerializedName("id") val id: String,
                         @SerializedName("title") val title: String,
                         @SerializedName("original_title") val originalTitle: String,

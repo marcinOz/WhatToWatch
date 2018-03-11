@@ -5,13 +5,12 @@ import android.os.Bundle
 import pl.oziem.datasource.models.Movie
 
 /**
- * Created by MarcinOz on 2018-03-06.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by MarcinOz on 2018-03-06 WhatToWatch.
+*/
 interface MovieListContract {
   interface View {
     fun showLoading(show: Boolean = true)
-    fun showError(message: String)
+    fun showError(message: String? = null)
     fun populate(movies: List<Movie>)
     fun showEmptyMessage()
   }

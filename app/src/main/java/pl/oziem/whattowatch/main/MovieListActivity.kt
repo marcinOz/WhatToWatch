@@ -67,8 +67,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     progressBar.visibility = if (show) View.VISIBLE else View.GONE
   }
 
-  override fun showError(message: String) {
-    messageTextView.text = message
+  override fun showError(message: String?) {
+    messageTextView.text = message ?: getString(R.string.server_error)
     messageTextView.visibility = View.VISIBLE
     showLoading(false)
   }

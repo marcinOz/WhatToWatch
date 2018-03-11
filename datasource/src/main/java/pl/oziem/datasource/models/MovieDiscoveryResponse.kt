@@ -5,8 +5,8 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
- * Created by marcinoziem on 09/03/2018.
- */
+* Created by marcinoziem on 09/03/2018 WhatToWatch.
+*/
 @Parcelize
 data class MovieDiscoveryResponse(
   @SerializedName("page") val page: Int = 0,

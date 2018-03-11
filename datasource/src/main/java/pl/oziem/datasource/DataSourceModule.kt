@@ -1,5 +1,6 @@
 package pl.oziem.datasource
 
+import android.content.Context
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -20,9 +21,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
- * Created by MarcinOz on 2018-03-02.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by MarcinOz on 2018-03-02 WhatToWatch.
+*/
 @Module
 open class DataSourceModule {
 
@@ -48,13 +48,13 @@ open class DataSourceModule {
   }
 
   @Provides
-  fun provideApiService(gson: Gson, okHttpClient: OkHttpClient): ApiService {
+  fun provideApiService(gson: Gson, okHttpClient: OkHttpClient, context: Context): ApiService {
     val retrofit = Retrofit.Builder()
       .addConverterFactory(GsonConverterFactory.create(gson))
       .addConverterFactory(ScalarsConverterFactory.create())
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .client(okHttpClient)
-      .baseUrl("https://api.themoviedb.org")
+      .baseUrl(context.getString(R.string.base_url))
       .build()
     return retrofit.create(ApiService::class.java)
   }

@@ -1,18 +1,18 @@
 package pl.oziem.whattowatch.di
 
 import android.app.Application
-import dagger.Component
 import dagger.BindsInstance
+import dagger.Component
 import dagger.android.AndroidInjectionModule
-import pl.oziem.whattowatch.WTWApplication
 import pl.oziem.datasource.DataSourceModule
+import pl.oziem.whattowatch.WTWApplication
+import pl.oziem.whattowatch.image_loader.ImageLoader
 import javax.inject.Singleton
 
 
 /**
- * Created by Marcin Oziemski on 01.03.2018.
- * Copyright (C) 2017 OKE Poland Sp. z o.o. All rights reserved.
- */
+* Created by Marcin Oziemski on 01.03.2018 WhatToWatch.
+*/
 @Singleton
 @Component(modules = [
   (DataSourceModule::class),
@@ -29,4 +29,6 @@ interface AppComponent {
   }
 
   fun inject(app: WTWApplication)
+
+  fun getImageLoader(): ImageLoader
 }
