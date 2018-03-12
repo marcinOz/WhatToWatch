@@ -1,7 +1,5 @@
 package pl.oziem.whattowatch
 
-import android.app.Activity
-import io.reactivex.Completable
 import io.reactivex.Single
 import org.junit.Before
 import org.junit.Test
@@ -22,8 +20,6 @@ class MovieListPresenterTest {
   private lateinit var dataProvider: DataProvider
   @Mock
   private lateinit var view: MovieListContract.View
-  @Mock
-  private lateinit var activity: Activity
   private lateinit var presenter: MovieListPresenter
 
   @Before
@@ -33,57 +29,38 @@ class MovieListPresenterTest {
   }
 
   @Test
-  fun initDownloadData_test_fail() {
-    `when`(dataProvider.fetchRemoteConfig(activity))
-      .thenReturn(Completable.create { e -> e.onError(RuntimeException()) })
-
-    presenter.initDownloadData(activity)
-
-    verify(view).showLoading()
-    verify(view).showError(null)
-  }
-
-  @Test
-  fun initDownloadData_test_fetchSuccess_discovery_fail() {
+  fun initDownloadData_test_discovery_fail() {
     val errorMessage = "error message"
-    `when`(dataProvider.fetchRemoteConfig(activity))
-      .thenReturn(Completable.create { e -> e.onComplete() })
     `when`(dataProvider.getMovieDiscover())
       .thenReturn(Single.create { e -> e.onError(RuntimeException(errorMessage)) })
 
-    presenter.initDownloadData(activity)
+    presenter.getMovieDiscover()
 
     verify(view).showLoading()
     verify(view).showError(errorMessage)
   }
 
   @Test
-  fun initDownloadData_test_all_success_with_empty() {
-    `when`(dataProvider.fetchRemoteConfig(activity))
-      .thenReturn(Completable.create { e -> e.onComplete() })
-
+  fun initDownloadData_test_success_with_empty() {
     val discoverResponse = MovieDiscoveryResponse()
     `when`(dataProvider.getMovieDiscover())
       .thenReturn(Single.just(discoverResponse))
 
-    presenter.initDownloadData(activity)
+    presenter.getMovieDiscover()
 
     verify(view).showLoading()
     verify(view).showEmptyMessage()
   }
 
   @Test
-  fun initDownloadData_test_all_success_with_data() {
-    `when`(dataProvider.fetchRemoteConfig(activity))
-      .thenReturn(Completable.create { e -> e.onComplete() })
-
+  fun initDownloadData_test_success_with_data() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
       movies = listOf(Movie()))
     `when`(dataProvider.getMovieDiscover())
       .thenReturn(Single.just(discoverResponse))
 
-    presenter.initDownloadData(activity)
+    presenter.getMovieDiscover()
 
     verify(view).showLoading()
     verify(view).populate(discoverResponse.movies!!)

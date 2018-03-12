@@ -1,6 +1,5 @@
 package pl.oziem.whattowatch.main
 
-import android.app.Activity
 import android.os.Bundle
 import pl.oziem.datasource.models.Movie
 
@@ -18,6 +17,5 @@ interface MovieListContract {
     fun saveInstanceState(bundle: Bundle?): Bundle?
     fun readSavedInstanceState(bundle: Bundle?): List<Movie>
     fun getMovieDiscover()
-    fun initDownloadData(activity: Activity)
   }
 }

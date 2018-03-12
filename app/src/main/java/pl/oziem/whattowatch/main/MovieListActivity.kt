@@ -5,10 +5,8 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.AndroidInjection
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
 import pl.oziem.datasource.models.Movie
@@ -27,7 +25,6 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   override fun onCreate(savedInstanceState: Bundle?) {
     AndroidInjection.inject(this)
     super.onCreate(savedInstanceState)
-    Fabric.with(this, Crashlytics())
     setContentView(R.layout.activity_movie_list)
 
     setSupportActionBar(toolbar)
@@ -42,8 +39,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
       mTwoPane = true
     }
 
-    if (savedInstanceState != null) {
-      content.addAll(presenter.readSavedInstanceState(savedInstanceState))
+    savedInstanceState?.run {
+      content.addAll(presenter.readSavedInstanceState(this))
     }
 
     setupRecyclerView(movie_list)
@@ -51,7 +48,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     if (content.isNotEmpty()) return
     GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
       .addOnCompleteListener { task ->
-        if (task.isSuccessful) presenter.initDownloadData(this)
+        if (task.isSuccessful) presenter.getMovieDiscover()
       }
   }
 

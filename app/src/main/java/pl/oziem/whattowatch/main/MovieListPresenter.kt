@@ -1,6 +1,5 @@
 package pl.oziem.whattowatch.main
 
-import android.app.Activity
 import android.os.Bundle
 import io.reactivex.rxkotlin.subscribeBy
 import pl.oziem.datasource.DataProvider
@@ -27,15 +26,8 @@ class MovieListPresenter(private val view: MovieListContract.View,
     return movieDiscoveryResponse?.movies ?: listOf()
   }
 
-  override fun initDownloadData(activity: Activity) {
-    view.showLoading()
-    dataProvider.fetchRemoteConfig(activity).subscribeBy(
-      onComplete = { getMovieDiscover() },
-      onError = { error -> view.showError(error.message) }
-    )
-  }
-
   override fun getMovieDiscover() {
+    view.showLoading()
     dataProvider.getMovieDiscover().subscribeBy(
       onSuccess = { result ->
         movieDiscoveryResponse = result
