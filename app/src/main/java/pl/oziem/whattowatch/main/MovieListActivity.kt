@@ -5,6 +5,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.view.animation.AnimationUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
@@ -53,6 +54,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
+    recyclerView.layoutAnimation = AnimationUtils
+      .loadLayoutAnimation(this, R.anim.layout_animation_fly_up)
     recyclerView.adapter = MovieListAdapter(this, content, mTwoPane)
   }
 
@@ -69,6 +72,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   override fun populate(movies: List<Movie>) {
     content.addAll(movies)
     movie_list.adapter.notifyDataSetChanged()
+    movie_list.scheduleLayoutAnimation()
     showLoading(false)
   }
 
