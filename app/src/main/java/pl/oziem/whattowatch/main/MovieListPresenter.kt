@@ -18,7 +18,7 @@ class MovieListPresenter(private val view: MovieListContract.View,
   private var movieDiscoveryResponse: MovieDiscoveryResponse? = null
 
   override fun saveInstanceState(bundle: Bundle?): Bundle? = bundle?.apply {
-    movieDiscoveryResponse?.also { putParcelable(MOVIE_DISCOVER_RESPONSE, it) }
+    movieDiscoveryResponse?.let { putParcelable(MOVIE_DISCOVER_RESPONSE, it) }
   }
 
   override fun readSavedInstanceState(bundle: Bundle?): List<Movie> {

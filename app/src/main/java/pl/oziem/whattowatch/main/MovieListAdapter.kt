@@ -53,9 +53,10 @@ class MovieListAdapter(private val mParentActivity: MovieListActivity,
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val item = mValues[position]
-    item.posterPath?.apply {
-      WTWApplication.getImageLoader(holder.itemView).load(this).into(holder.poster)
-    }
+    WTWApplication.getImageLoader(holder.itemView)
+      .loadPoster(item.posterPath)
+      .error(R.drawable.vod_default_poster)
+      .into(holder.poster)
     holder.title.text = item.title
 
     with(holder.itemView) {

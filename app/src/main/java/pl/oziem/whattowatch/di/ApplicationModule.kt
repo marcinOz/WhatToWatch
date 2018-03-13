@@ -6,6 +6,8 @@ import dagger.Module
 import dagger.Provides
 import pl.oziem.whattowatch.image_loader.GlideImageLoader
 import pl.oziem.whattowatch.image_loader.ImageLoader
+import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
+import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediatorImp
 import javax.inject.Singleton
 
 /**
@@ -18,6 +20,11 @@ class ApplicationModule {
   fun provideContext(application: Application): Context = application
 
   @Provides
+  fun provideSharedPrefMediator(context: Context): SharedPreferenceMediator =
+    SharedPreferenceMediatorImp(context)
+
+  @Provides
   @Singleton
-  fun provideImageLoader(): ImageLoader = GlideImageLoader()
+  fun provideImageLoader(sharedPrefMediator: SharedPreferenceMediator): ImageLoader =
+    GlideImageLoader(sharedPrefMediator)
 }

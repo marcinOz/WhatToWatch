@@ -5,4 +5,5 @@
     <string name="tmdb_license">This product uses the TMDb API but is not endorsed or certified by TMDb.</string>
   <string name="no_content">There is no content.</string>
   <string name="server_error">server error</string>
+  <string name="poster">poster</string>
 </resources>

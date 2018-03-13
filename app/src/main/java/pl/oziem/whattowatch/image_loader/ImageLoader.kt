@@ -16,7 +16,9 @@ interface ImageLoader {
   fun with(activity: Activity): Requests
 
   interface Requests {
-    fun load(url: String): Request
+    fun load(url: String?): Request
+    fun loadPoster(url: String?): Request
+    fun loadBackdrop(url: String?): Request
   }
 
   interface Request {

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
   android:orientation="vertical"
   android:foreground="?attr/selectableItemBackgroundBorderless"
-  android:paddingLeft="8dp"
-  android:paddingRight="8dp">
+  android:padding="@dimen/card_margins">
 
   <ImageView
     android:id="@+id/poster"
-    android:layout_width="100dp"
-    android:layout_height="160dp"
-    android:scaleType="center"
-    app:srcCompat="@drawable/vod_default_poster" />
+    android:layout_width="wrap_content"
+    android:layout_height="200dp"
+    android:background="@color/lightGrey"
+    android:scaleType="centerCrop"
+    tools:srcCompat="@drawable/vod_default_poster"
+    android:contentDescription="@string/poster" />
 
   <TextView
     android:id="@+id/title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="4dp"
+    android:layout_marginTop="2dp"
     android:textAppearance="?attr/textAppearanceListItem"
     android:maxLines="1"
     android:ellipsize="end"
