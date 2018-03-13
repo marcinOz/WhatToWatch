@@ -14,7 +14,6 @@ import pl.oziem.whattowatch.MovieDetailActivity
 import pl.oziem.whattowatch.MovieDetailFragment
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.WTWApplication
-import pl.oziem.whattowatch.dummy.DummyContent
 
 class MovieListAdapter(private val mParentActivity: MovieListActivity,
                        private val mValues: List<Movie>,
@@ -25,11 +24,11 @@ class MovieListAdapter(private val mParentActivity: MovieListActivity,
 
   init {
     mOnClickListener = View.OnClickListener { v ->
-      val item = v.tag as DummyContent.DummyItem
+      val item = v.tag as Movie
       if (mTwoPane) {
         val fragment = MovieDetailFragment().apply {
           arguments = Bundle().apply {
-            putString(MovieDetailFragment.ARG_ITEM_ID, item.id)
+            putParcelable(MovieDetailFragment.ARG_ITEM_ID, item)
           }
         }
         mParentActivity.supportFragmentManager
@@ -38,7 +37,7 @@ class MovieListAdapter(private val mParentActivity: MovieListActivity,
           .commit()
       } else {
         val intent = Intent(v.context, MovieDetailActivity::class.java).apply {
-          putExtra(MovieDetailFragment.ARG_ITEM_ID, item.id)
+          putExtra(MovieDetailFragment.ARG_ITEM_ID, item)
         }
         v.context.startActivity(intent)
       }

@@ -81,10 +81,10 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
     }
       .delay(SHORT_DELAY, TimeUnit.MILLISECONDS)
       .doOnComplete {
-        appImage.alpha = 1f
-        appName.alpha = 1f
         appImage.startAnimation(fadeAnimation)
         appName.startAnimation(fadeAnimation)
+        appImage.alpha = 1f
+        appName.alpha = 1f
       }
       .delay(LONG_DELAY, TimeUnit.MILLISECONDS)
       .subscribe { animEmitter?.onComplete() }

@@ -31,7 +31,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     toolbar.title = title
 
     fab.setOnClickListener { view ->
-      Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+      Snackbar.make(view, "TODO: Add Action", Snackbar.LENGTH_LONG)
         .setAction("Action", null).show()
     }
 
