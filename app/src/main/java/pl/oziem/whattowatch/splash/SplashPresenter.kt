@@ -20,6 +20,10 @@ class SplashPresenter(private val view: SplashContract.View,
   }
 
   private fun getConfiguration() {
+    if (sharedPrefMediator.hasImageConfigBeenSaved()) {
+      view.onDataFetched()
+      return
+    }
     dataProvider.getConfiguration().subscribeBy(
       onSuccess = { configuration ->
         sharedPrefMediator.saveImageConfiguration(configuration.imagesConfig)

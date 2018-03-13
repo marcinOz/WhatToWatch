@@ -1,6 +1,7 @@
 package pl.oziem.whattowatch
 
 import io.reactivex.Single
+import io.reactivex.SingleEmitter
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
@@ -28,11 +29,14 @@ class MovieListPresenterTest {
     presenter = MovieListPresenter(view, dataProvider)
   }
 
+  private fun mockGetMovieDiscover(block: SingleEmitter<MovieDiscoveryResponse>.() -> Unit) {
+    `when`(dataProvider.getMovieDiscover()).thenReturn(Single.create { e -> e.block() })
+  }
+
   @Test
-  fun initDownloadData_test_discovery_fail() {
+  fun getMovieDiscover_test_fail() {
     val errorMessage = "error message"
-    `when`(dataProvider.getMovieDiscover())
-      .thenReturn(Single.create { e -> e.onError(RuntimeException(errorMessage)) })
+    mockGetMovieDiscover { onError(RuntimeException(errorMessage)) }
 
     presenter.getMovieDiscover()
 
@@ -41,10 +45,8 @@ class MovieListPresenterTest {
   }
 
   @Test
-  fun initDownloadData_test_success_with_empty() {
-    val discoverResponse = MovieDiscoveryResponse()
-    `when`(dataProvider.getMovieDiscover())
-      .thenReturn(Single.just(discoverResponse))
+  fun getMovieDiscover_test_success_with_empty() {
+    mockGetMovieDiscover { onSuccess(MovieDiscoveryResponse()) }
 
     presenter.getMovieDiscover()
 
@@ -53,12 +55,12 @@ class MovieListPresenterTest {
   }
 
   @Test
-  fun initDownloadData_test_success_with_data() {
+  fun getMovieDiscover_test_success_with_data() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
-      movies = listOf(Movie()))
-    `when`(dataProvider.getMovieDiscover())
-      .thenReturn(Single.just(discoverResponse))
+      movies = listOf(Movie())
+    )
+    mockGetMovieDiscover { onSuccess(discoverResponse) }
 
     presenter.getMovieDiscover()
 

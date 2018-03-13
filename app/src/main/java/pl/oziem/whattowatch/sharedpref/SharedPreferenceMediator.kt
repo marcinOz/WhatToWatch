@@ -14,4 +14,5 @@ interface SharedPreferenceMediator {
   fun getPosterSizes(): List<String>
   fun getProfileSizes(): List<String>
   fun getStillSizes(): List<String>
+  fun hasImageConfigBeenSaved(): Boolean
 }

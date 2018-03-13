@@ -40,6 +40,7 @@ class SharedPreferenceMediatorImp(val context: Context) : SharedPreferenceMediat
       putStringSet(STILL_SIZES, imagesConfiguration.stillSizes.toSet())
     }
 
+  override fun hasImageConfigBeenSaved() = getSharedPref().contains(IMAGE_BASE_URL)
   override fun getImageBaseUrl(): String = getSharedPref().getString(IMAGE_BASE_URL, "")
   override fun getImageSecureBaseUrl(): String = getSharedPref().getString(IMAGE_SECURE_BASE_URL, "")
   override fun getBackdropSizes() = getSharedPref().getStringSet(BACKDROP_SIZES, mutableSetOf()).toList()
