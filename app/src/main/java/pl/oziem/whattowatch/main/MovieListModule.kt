@@ -2,7 +2,7 @@ package pl.oziem.whattowatch.main
 
 import dagger.Module
 import dagger.Provides
-import pl.oziem.datasource.DataProvider
+import pl.oziem.datasource.dataprovider.DataProvider
 
 
 /** Created by MarcinOz on 2018-03-06 WhatToWatch.

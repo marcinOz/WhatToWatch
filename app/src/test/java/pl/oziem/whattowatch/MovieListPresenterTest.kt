@@ -8,7 +8,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import pl.oziem.datasource.DataProvider
+import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.Movie
 import pl.oziem.datasource.models.MovieDiscoveryResponse
 import pl.oziem.whattowatch.main.MovieListContract

@@ -29,7 +29,8 @@ class GlideImageLoader(val sharedPrefMediator: SharedPreferenceMediator) : Image
       .fitCenter())
     override fun loadBackdrop(url: String?) = Request(glideRequests.load(
       url.makeItProperUrl(sharedPrefMediator.getBackdropSizes().firstOrNull()))
-      .transition(DrawableTransitionOptions.withCrossFade()))
+      .transition(DrawableTransitionOptions.withCrossFade())
+      .fitCenter())
   }
 
   class Request<T>(private val glideRequest: GlideRequest<T>) : ImageLoader.Request {

@@ -2,7 +2,7 @@ package pl.oziem.whattowatch.main
 
 import android.os.Bundle
 import io.reactivex.rxkotlin.subscribeBy
-import pl.oziem.datasource.DataProvider
+import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.Movie
 import pl.oziem.datasource.models.MovieDiscoveryResponse
 

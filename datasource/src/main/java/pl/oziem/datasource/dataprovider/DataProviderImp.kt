@@ -1,14 +1,14 @@
-package pl.oziem.datasource
+package pl.oziem.datasource.dataprovider
 
 import android.app.Activity
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import pl.oziem.datasource.firebase.FirebaseRemoteConfigMediator
 import pl.oziem.datasource.models.MovieDetails
 import pl.oziem.datasource.models.MovieDiscoveryResponse
 import pl.oziem.datasource.models.configuration.Configuration
+import pl.oziem.datasource.remote_config.FirebaseRemoteConfigMediator
 import pl.oziem.datasource.services.ApiService
 
 /**

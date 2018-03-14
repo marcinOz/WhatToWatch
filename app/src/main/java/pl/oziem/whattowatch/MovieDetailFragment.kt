@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import pl.oziem.whattowatch.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.android.synthetic.main.movie_detail.view.*
+import pl.oziem.datasource.models.Movie
 
 /**
  * A fragment representing a single Movie detail screen.
@@ -17,21 +17,19 @@ import kotlinx.android.synthetic.main.movie_detail.view.*
  */
 class MovieDetailFragment : Fragment() {
 
-  /**
-   * The dummy content this fragment is presenting.
-   */
-  private var mItem: DummyContent.DummyItem? = null
+  companion object {
+    const val ARG_ITEM_ID = "item_id"
+  }
+
+  private var mItem: Movie? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
 
     arguments?.let {
       if (it.containsKey(ARG_ITEM_ID)) {
-        // Load the dummy content specified by the fragment
-        // arguments. In a real-world scenario, use a Loader
-        // to load content from a content provider.
-        mItem = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-        activity?.toolbar_layout?.title = mItem?.content
+        mItem = it.getParcelable(ARG_ITEM_ID)
+        activity?.toolbar_layout?.title = mItem?.title
       }
     }
   }
@@ -42,17 +40,13 @@ class MovieDetailFragment : Fragment() {
 
     // Show the dummy content as text in a TextView.
     mItem?.let {
-      rootView.movie_detail.text = it.details
+      rootView.movie_detail.text = it.overview
+    }
+
+    if (activity is MovieDetailActivity) {
+      (activity as MovieDetailActivity).setToolbarImage(mItem?.backdropPath)
     }
 
     return rootView
-  }
-
-  companion object {
-    /**
-     * The fragment argument representing the item ID that this fragment
-     * represents.
-     */
-    const val ARG_ITEM_ID = "item_id"
   }
 }

@@ -11,7 +11,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import pl.oziem.datasource.DataProvider
+import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.configuration.Configuration
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 import pl.oziem.whattowatch.splash.SplashContract

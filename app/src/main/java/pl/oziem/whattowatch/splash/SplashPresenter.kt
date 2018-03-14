@@ -2,7 +2,7 @@ package pl.oziem.whattowatch.splash
 
 import android.app.Activity
 import io.reactivex.rxkotlin.subscribeBy
-import pl.oziem.datasource.DataProvider
+import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 
 /** Created by marcinoziem on 12/03/2018 WhatToWatch.

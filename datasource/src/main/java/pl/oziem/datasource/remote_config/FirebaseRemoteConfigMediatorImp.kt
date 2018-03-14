@@ -1,4 +1,4 @@
-package pl.oziem.datasource.firebase
+package pl.oziem.datasource.remote_config
 
 import android.app.Activity
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig

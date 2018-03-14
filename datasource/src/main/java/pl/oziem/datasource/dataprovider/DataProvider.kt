@@ -1,4 +1,4 @@
-package pl.oziem.datasource
+package pl.oziem.datasource.dataprovider
 
 import android.app.Activity
 import io.reactivex.Completable
