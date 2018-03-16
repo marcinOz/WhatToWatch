@@ -13,6 +13,7 @@
     android:layout_height="200dp"
     android:background="@color/lightGrey"
     android:scaleType="centerCrop"
+    android:transitionName="@string/poster"
     tools:srcCompat="@drawable/vod_default_poster"
     android:contentDescription="@string/poster" />
 
@@ -21,6 +22,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
+    android:transitionName="@string/title"
     android:textAppearance="?attr/textAppearanceListItem"
     android:maxLines="1"
     android:ellipsize="end"

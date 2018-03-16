@@ -6,4 +6,5 @@
   <string name="no_content">There is no content.</string>
   <string name="server_error">server error</string>
   <string name="poster">poster</string>
+  <string name="title">title</string>
 </resources>

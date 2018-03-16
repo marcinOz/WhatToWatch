@@ -27,7 +27,7 @@
       android:label="@string/app_name"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity
-      android:name=".MovieDetailActivity"
+      android:name=".details.MovieDetailActivity"
       android:label="@string/title_movie_detail"
       android:parentActivityName=".main.MovieListActivity"
       android:theme="@style/AppTheme.NoActionBar">

@@ -4,7 +4,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:fitsSystemWindows="true"
-  tools:context="pl.oziem.whattowatch.MovieDetailActivity"
+  tools:context="pl.oziem.whattowatch.details.MovieDetailActivity"
   tools:ignore="MergeRootFrame">
 
   <android.support.design.widget.AppBarLayout
@@ -21,6 +21,7 @@
       android:fitsSystemWindows="true"
       app:contentScrim="?attr/colorPrimary"
       app:layout_scrollFlags="scroll|exitUntilCollapsed"
+      app:expandedTitleTextAppearance="@style/invisibleText"
       app:toolbarId="@+id/toolbar">
 
       <ImageView

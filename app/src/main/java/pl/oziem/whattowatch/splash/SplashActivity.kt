@@ -15,6 +15,7 @@ import dagger.android.AndroidInjection
 import io.fabric.sdk.android.Fabric
 import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
+import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_splash.*
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.main.MovieListActivity
@@ -80,6 +81,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
       circle.startAnimation(scaleAnimation)
     }
       .delay(SHORT_DELAY, TimeUnit.MILLISECONDS)
+      .observeOn(AndroidSchedulers.mainThread())
       .doOnComplete {
         appImage.startAnimation(fadeAnimation)
         appName.startAnimation(fadeAnimation)

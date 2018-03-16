@@ -6,7 +6,12 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 
 /** Created by marcinoziem on 10/03/2018 WhatToWatch.
@@ -23,14 +28,27 @@ class GlideImageLoader(val sharedPrefMediator: SharedPreferenceMediator) : Image
 
   inner class Requests(private val glideRequests: GlideRequests) : ImageLoader.Requests {
     override fun load(url: String?) = Request(glideRequests.load(url))
-    override fun loadPoster(url: String?) = Request(glideRequests.load(
-      url.makeItProperUrl(sharedPrefMediator.getPosterSizes().getOrNull(1)))
-      .transition(DrawableTransitionOptions.withCrossFade())
-      .fitCenter())
     override fun loadBackdrop(url: String?) = Request(glideRequests.load(
       url.makeItProperUrl(sharedPrefMediator.getBackdropSizes().firstOrNull()))
       .transition(DrawableTransitionOptions.withCrossFade())
-      .fitCenter())
+      .diskCacheStrategy(DiskCacheStrategy.DATA))
+
+    override fun loadPoster(url: String?) = loadPoster(url, { this })
+    private fun loadPoster(url: String?,
+                           block: GlideRequest<Drawable>.() -> GlideRequest<Drawable>) =
+      Request(glideRequests
+        .load(url.makeItProperUrl(sharedPrefMediator.getPosterSizes().getOrNull(1)))
+        .block()
+        .diskCacheStrategy(DiskCacheStrategy.DATA))
+
+    override fun loadPosterWithListener(url: String?, onSuccess: () -> Unit,
+                                        onFailure: () -> Unit) = loadPoster(url, {
+      addListener(onSuccess, onFailure)
+    })
+
+    override fun loadPosterWithTransition(url: String?) = loadPoster(url, {
+      return@loadPoster transition(DrawableTransitionOptions.withCrossFade())
+    })
   }
 
   class Request<T>(private val glideRequest: GlideRequest<T>) : ImageLoader.Request {
@@ -46,5 +64,22 @@ class GlideImageLoader(val sharedPrefMediator: SharedPreferenceMediator) : Image
     override fun into(imageView: ImageView) {
       glideRequest.into(imageView)
     }
+  }
+
+  private fun GlideRequest<Drawable>.addListener(onSuccess: () -> Unit,
+                                                 onFailure: () -> Unit): GlideRequest<Drawable> {
+    return listener(object : RequestListener<Drawable> {
+      override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?,
+                                isFirstResource: Boolean): Boolean {
+        onFailure()
+        return false
+      }
+
+      override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?,
+                                   dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+        onSuccess()
+        return false
+      }
+    })
   }
 }

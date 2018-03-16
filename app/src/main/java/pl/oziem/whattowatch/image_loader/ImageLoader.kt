@@ -19,6 +19,8 @@ interface ImageLoader {
     fun load(url: String?): Request
     fun loadPoster(url: String?): Request
     fun loadBackdrop(url: String?): Request
+    fun loadPosterWithTransition(url: String?): Request
+    fun loadPosterWithListener(url: String?, onSuccess: () -> Unit, onFailure: () -> Unit): Request
   }
 
   interface Request {
