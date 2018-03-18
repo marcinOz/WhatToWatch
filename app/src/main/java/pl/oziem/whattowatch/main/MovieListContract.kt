@@ -1,7 +1,7 @@
 package pl.oziem.whattowatch.main
 
 import android.os.Bundle
-import pl.oziem.datasource.models.Movie
+import pl.oziem.datasource.models.movie.Movie
 
 /**
 * Created by MarcinOz on 2018-03-06 WhatToWatch.

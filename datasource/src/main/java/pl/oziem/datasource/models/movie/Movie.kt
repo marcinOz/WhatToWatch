@@ -1,4 +1,4 @@
-package pl.oziem.datasource.models
+package pl.oziem.datasource.models.movie
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

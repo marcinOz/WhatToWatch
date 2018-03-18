@@ -7,8 +7,7 @@ import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
 
-/**
-* Created by marcinoziem on 10/03/2018 WhatToWatch.
+/** Created by marcinoziem on 10/03/2018 WhatToWatch.
 */
 interface ImageLoader {
   fun with(context: Context): Requests
@@ -16,11 +15,14 @@ interface ImageLoader {
   fun with(activity: Activity): Requests
 
   interface Requests {
-    fun load(url: String?): Request
-    fun loadPoster(url: String?): Request
-    fun loadBackdrop(url: String?): Request
-    fun loadPosterWithTransition(url: String?): Request
-    fun loadPosterWithListener(url: String?, onSuccess: () -> Unit, onFailure: () -> Unit): Request
+    fun load(url: String?): DrawableRequest
+    fun loadPoster(url: String?): DrawableRequest
+    fun loadBackdrop(url: String?): DrawableRequest
+  }
+
+  interface DrawableRequest : Request {
+    fun listener(onSuccess: () -> Unit, onFailure: () -> Unit): DrawableRequest
+    fun fadeTransition(): DrawableRequest
   }
 
   interface Request {

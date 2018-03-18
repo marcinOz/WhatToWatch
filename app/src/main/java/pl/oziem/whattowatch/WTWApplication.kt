@@ -26,6 +26,8 @@ class WTWApplication : Application(), HasActivityInjector, Application.ActivityL
     fun getImageLoader(view: View) = getImageLoader(view.context)
     fun getImageLoader(context: Context) =
       (context.applicationContext as WTWApplication).appComponent.getImageLoader().with(context)
+    fun getSharedPrefMediator(context: Context) =
+      (context.applicationContext as WTWApplication).appComponent.getSharedPrefMediator()
   }
 
   @Inject

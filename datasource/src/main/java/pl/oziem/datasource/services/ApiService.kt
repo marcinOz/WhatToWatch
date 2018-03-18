@@ -1,9 +1,10 @@
 package pl.oziem.datasource.services
 
 import io.reactivex.Single
-import pl.oziem.datasource.models.MovieDetails
-import pl.oziem.datasource.models.MovieDiscoveryResponse
+import pl.oziem.datasource.models.Language
 import pl.oziem.datasource.models.configuration.Configuration
+import pl.oziem.datasource.models.movie.MovieDetails
+import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -16,6 +17,10 @@ interface ApiService {
   @GET("{version}/configuration")
   fun getConfiguration(@Path("version") version: Int,
                           @Query("api_key") apiKey: String): Single<Configuration>
+
+  @GET("{version}/configuration/languages")
+  fun getLanguages(@Path("version") version: Int,
+                          @Query("api_key") apiKey: String): Single<List<Language>>
 
   @GET("{version}/movie/{id}")
   fun getMovieDetailsById(@Path("version") version: Int, @Path("id") movieId: Int,

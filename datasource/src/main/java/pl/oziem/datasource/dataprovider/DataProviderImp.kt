@@ -5,9 +5,10 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import pl.oziem.datasource.models.MovieDetails
-import pl.oziem.datasource.models.MovieDiscoveryResponse
+import pl.oziem.datasource.models.Language
 import pl.oziem.datasource.models.configuration.Configuration
+import pl.oziem.datasource.models.movie.MovieDetails
+import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
 import pl.oziem.datasource.remote_config.FirebaseRemoteConfigMediator
 import pl.oziem.datasource.services.ApiService
 
@@ -30,6 +31,10 @@ class DataProviderImp(private val apiService: ApiService,
 
   override fun getConfiguration(): Single<Configuration> =
     apiService.getConfiguration(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
+      .defaultThreads()
+
+  override fun getLanguages(): Single<List<Language>> =
+    apiService.getLanguages(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
       .defaultThreads()
 
   override fun getMovieDetailsById(movieId: Int): Single<MovieDetails> =

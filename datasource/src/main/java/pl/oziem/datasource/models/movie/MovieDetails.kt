@@ -1,6 +1,10 @@
-package pl.oziem.datasource.models
+package pl.oziem.datasource.models.movie
 
 import com.google.gson.annotations.SerializedName
+import pl.oziem.datasource.models.ContentStatus
+import pl.oziem.datasource.models.Genre
+import pl.oziem.datasource.models.ProductionCompanies
+import pl.oziem.datasource.models.SpokenLanguage
 
 /**
 * Created by MarcinOz on 2018-03-02 WhatToWatch.
@@ -22,7 +26,7 @@ data class MovieDetails(@SerializedName("id") val id: String,
                         @SerializedName("tagline") val tagline: String?,
                         @SerializedName("homepage") val homepage: String?,
                         @SerializedName("original_language") val originalLanguage: String,
-                        @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLenguage>,
+                        @SerializedName("spoken_languages") val spokenLanguages: List<SpokenLanguage>,
                         @SerializedName("overview") val overview: String?,
                         @SerializedName("production_companies") val productionCompanies: List<ProductionCompanies>,
                         @SerializedName("belongs_to_collection") val belongsToCollection: MutableList<String>?,

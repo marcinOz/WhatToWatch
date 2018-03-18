@@ -1,5 +1,6 @@
 package pl.oziem.whattowatch.sharedpref
 
+import pl.oziem.datasource.models.Language
 import pl.oziem.datasource.models.configuration.ImagesConfiguration
 
 /**
@@ -15,4 +16,6 @@ interface SharedPreferenceMediator {
   fun getProfileSizes(): List<String>
   fun getStillSizes(): List<String>
   fun hasImageConfigBeenSaved(): Boolean
+  fun saveLanguageConfiguration(languages: List<Language>)
+  fun getLanguageByIso(iso: String): String?
 }

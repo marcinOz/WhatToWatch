@@ -1,5 +1,6 @@
 package pl.oziem.whattowatch.details
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
@@ -12,6 +13,10 @@ import pl.oziem.whattowatch.WTWApplication
 class MovieDetailActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
+    if (resources.getBoolean(R.bool.isWideTabletScreen)) {
+      setResult(Activity.RESULT_OK, intent)
+      finish()
+    }
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_movie_detail)
     supportPostponeEnterTransition()
@@ -38,8 +43,10 @@ class MovieDetailActivity : AppCompatActivity() {
       .commit()
   }
 
-  fun setToolbarImage(url: String?) {
+  fun setToolbarData(title: String?, url: String?) {
+    toolbar_layout.title = title
     WTWApplication.getImageLoader(this).loadBackdrop(url)
+      .fadeTransition()
       .fitCenter()
       .into(toolbar_image)
   }

@@ -27,31 +27,26 @@ class GlideImageLoader(val sharedPrefMediator: SharedPreferenceMediator) : Image
   }
 
   inner class Requests(private val glideRequests: GlideRequests) : ImageLoader.Requests {
-    override fun load(url: String?) = Request(glideRequests.load(url))
-    override fun loadBackdrop(url: String?) = Request(glideRequests.load(
-      url.makeItProperUrl(sharedPrefMediator.getBackdropSizes().firstOrNull()))
-      .transition(DrawableTransitionOptions.withCrossFade())
+    override fun load(url: String?) = DrawableRequest(glideRequests.load(url))
+    override fun loadBackdrop(url: String?) = DrawableRequest(glideRequests
+      .load(url.makeItProperUrl(sharedPrefMediator.getBackdropSizes().firstOrNull()))
       .diskCacheStrategy(DiskCacheStrategy.DATA))
 
-    override fun loadPoster(url: String?) = loadPoster(url, { this })
-    private fun loadPoster(url: String?,
-                           block: GlideRequest<Drawable>.() -> GlideRequest<Drawable>) =
-      Request(glideRequests
-        .load(url.makeItProperUrl(sharedPrefMediator.getPosterSizes().getOrNull(1)))
-        .block()
-        .diskCacheStrategy(DiskCacheStrategy.DATA))
-
-    override fun loadPosterWithListener(url: String?, onSuccess: () -> Unit,
-                                        onFailure: () -> Unit) = loadPoster(url, {
-      addListener(onSuccess, onFailure)
-    })
-
-    override fun loadPosterWithTransition(url: String?) = loadPoster(url, {
-      return@loadPoster transition(DrawableTransitionOptions.withCrossFade())
-    })
+    override fun loadPoster(url: String?) = DrawableRequest(glideRequests
+      .load(url.makeItProperUrl(sharedPrefMediator.getPosterSizes().getOrNull(1)))
+      .diskCacheStrategy(DiskCacheStrategy.DATA))
   }
 
-  class Request<T>(private val glideRequest: GlideRequest<T>) : ImageLoader.Request {
+  inner class DrawableRequest(private val glideRequest: GlideRequest<Drawable>)
+    : Request<Drawable>(glideRequest), ImageLoader.DrawableRequest {
+    override fun fadeTransition() =
+      DrawableRequest(glideRequest.transition(DrawableTransitionOptions.withCrossFade()))
+
+    override fun listener(onSuccess: () -> Unit, onFailure: () -> Unit) =
+      DrawableRequest(glideRequest.addListener(onSuccess, onFailure))
+  }
+
+  open class Request<T>(private val glideRequest: GlideRequest<T>) : ImageLoader.Request {
     override fun placeholder(drawable: Drawable?) = Request(glideRequest.placeholder(drawable))
     override fun placeholder(@DrawableRes res: Int) = Request(glideRequest.placeholder(res))
     override fun error(drawable: Drawable?) = Request(glideRequest.error(drawable))

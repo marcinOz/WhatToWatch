@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import kotlinx.android.synthetic.main.movie_list_content.view.*
-import pl.oziem.datasource.models.Movie
+import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.WTWApplication
 
@@ -33,7 +33,8 @@ class MovieListAdapter(private val mValues: List<Movie>,
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     val item = mValues[position]
     WTWApplication.getImageLoader(holder.itemView)
-      .loadPosterWithTransition(item.posterPath)
+      .loadPoster(item.posterPath)
+      .fadeTransition()
       .fitCenter()
       .error(R.drawable.vod_default_poster)
       .into(holder.poster)

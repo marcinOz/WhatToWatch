@@ -3,8 +3,8 @@ package pl.oziem.whattowatch.main
 import android.os.Bundle
 import io.reactivex.rxkotlin.subscribeBy
 import pl.oziem.datasource.dataprovider.DataProvider
-import pl.oziem.datasource.models.Movie
-import pl.oziem.datasource.models.MovieDiscoveryResponse
+import pl.oziem.datasource.models.movie.Movie
+import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
 
 /**
 * Created by MarcinOz on 2018-03-06 WhatToWatch.

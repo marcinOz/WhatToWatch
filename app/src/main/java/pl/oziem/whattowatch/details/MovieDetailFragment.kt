@@ -5,9 +5,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.android.synthetic.main.movie_detail.view.*
-import pl.oziem.datasource.models.Movie
+import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.WTWApplication
 
@@ -21,41 +20,44 @@ class MovieDetailFragment : Fragment() {
 
   companion object {
     const val MOVIE_ARG = "item_id"
+    fun readState(bundle: Bundle?): Movie? = bundle?.getParcelable(MOVIE_ARG)
   }
 
-  private var mItem: Movie? = null
+  private var movie: Movie? = null
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-
-    arguments?.let {
-      if (it.containsKey(MOVIE_ARG)) {
-        mItem = it.getParcelable(MOVIE_ARG)
-        activity?.toolbar_layout?.title = mItem?.title
-      }
-    }
+    movie = readState(arguments)
   }
 
   override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                             savedInstanceState: Bundle?): View? {
     val rootView = inflater.inflate(R.layout.movie_detail, container, false)
 
-    val activity: MovieDetailActivity? = if (activity is MovieDetailActivity)
+    val movieDetailActivity: MovieDetailActivity? = if (activity is MovieDetailActivity)
       (activity as MovieDetailActivity) else null
-    activity?.setToolbarImage(mItem?.backdropPath)
+    movieDetailActivity?.setToolbarData(movie?.title, movie?.backdropPath)
 
-    // Show the dummy content as text in a TextView.
-    mItem?.let {
+    movie?.let {
       rootView.movie_detail.text = it.overview
       WTWApplication.getImageLoader(rootView)
-        .loadPosterWithListener(it.posterPath,
-          { activity?.supportStartPostponedEnterTransition() },
-          { activity?.supportStartPostponedEnterTransition() })
+        .loadPoster(it.posterPath)
+        .listener(
+          { movieDetailActivity?.supportStartPostponedEnterTransition() },
+          { movieDetailActivity?.supportStartPostponedEnterTransition() })
         .into(rootView.poster)
       rootView.title.text = it.title
-      rootView.subtitle.text = "Release Date: ${it.releaseDate} " +
-        "Original Language: ${it.originalLanguage.toUpperCase()}"
+
+      activity?.apply {
+        val language = WTWApplication.getSharedPrefMediator(this)
+          .getLanguageByIso(it.originalLanguage)
+        rootView.subtitle.text = getString(R.string.subtitle, it.releaseDate, language)
+      }
     }
     return rootView
+  }
+
+  fun saveState(bundle: Bundle?): Bundle? = bundle?.apply {
+    movie?.let { putParcelable(MOVIE_ARG, it) }
   }
 }

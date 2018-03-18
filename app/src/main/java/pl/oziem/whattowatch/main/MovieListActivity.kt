@@ -1,5 +1,7 @@
 package pl.oziem.whattowatch.main
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,7 +14,7 @@ import android.view.animation.AnimationUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
-import pl.oziem.datasource.models.Movie
+import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.details.MovieDetailActivity
 import pl.oziem.whattowatch.details.MovieDetailFragment
@@ -20,13 +22,19 @@ import javax.inject.Inject
 
 class MovieListActivity : AppCompatActivity(), MovieListContract.View {
 
+  companion object {
+    private const val DETAILS_ACTIVITY_CODE = 11
+  }
+
   private var mTwoPane: Boolean = false
   private var content: MutableList<Movie> = mutableListOf()
+  private var fragment: MovieDetailFragment? = null
 
   @Inject
   lateinit var presenter: MovieListContract.Presenter
 
   override fun onCreate(savedInstanceState: Bundle?) {
+    MovieDetailFragment.readState(savedInstanceState)?.apply { openDetailsActivity(this) }
     AndroidInjection.inject(this)
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_movie_list)
@@ -39,9 +47,23 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
         .setAction("Action", null).show()
     }
 
-    if (movie_detail_container != null) {
-      mTwoPane = true
+    initData(savedInstanceState)
+  }
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    super.onActivityResult(requestCode, resultCode, data)
+    if (requestCode != DETAILS_ACTIVITY_CODE) return
+    when {
+      resultCode == Activity.RESULT_OK && data?.extras != null -> data.extras.apply {
+        showDetailsInSecondPane(getParcelable(MovieDetailFragment.MOVIE_ARG))
+      }
+      else -> {
+      }
     }
+  }
+
+  private fun initData(savedInstanceState: Bundle?) {
+    mTwoPane = movie_detail_container != null
 
     savedInstanceState?.run {
       content.addAll(presenter.readSavedInstanceState(this))
@@ -54,7 +76,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   }
 
   override fun onSaveInstanceState(outState: Bundle?) {
-    super.onSaveInstanceState(presenter.saveInstanceState(outState))
+    super.onSaveInstanceState(presenter.saveInstanceState(outState)
+      .also { fragment?.saveState(outState) })
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
@@ -89,7 +112,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     else openDetailsActivity(movie, *views)
 
   private fun showDetailsInSecondPane(movie: Movie) {
-    val fragment = MovieDetailFragment().apply {
+    fragment = MovieDetailFragment().apply {
       arguments = Bundle().apply {
         putParcelable(MovieDetailFragment.MOVIE_ARG, movie)
       }
@@ -101,7 +124,8 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
       .commit()
   }
 
-  private fun openDetailsActivity(movie: Movie, vararg views: View) {
+  @SuppressLint("RestrictedApi")
+  private fun openDetailsActivity(movie: Movie, vararg views: View = emptyArray()) {
     val intent = Intent(this, MovieDetailActivity::class.java)
       .apply { putExtra(MovieDetailFragment.MOVIE_ARG, movie) }
 
@@ -113,7 +137,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
 
 
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, *pairs)
-    startActivity(intent, options.toBundle())
+    startActivityForResult(intent, DETAILS_ACTIVITY_CODE, options.toBundle())
   }
 
   private fun Pair<View, String>.toJavaPair() = android.support.v4.util.Pair(first, second)

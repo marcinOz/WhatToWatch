@@ -7,6 +7,7 @@ import dagger.android.AndroidInjectionModule
 import pl.oziem.datasource.DataSourceModule
 import pl.oziem.whattowatch.WTWApplication
 import pl.oziem.whattowatch.image_loader.ImageLoader
+import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 import javax.inject.Singleton
 
 
@@ -31,4 +32,5 @@ interface AppComponent {
   fun inject(app: WTWApplication)
 
   fun getImageLoader(): ImageLoader
+  fun getSharedPrefMediator(): SharedPreferenceMediator
 }

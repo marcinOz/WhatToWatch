@@ -3,6 +3,7 @@ package pl.oziem.whattowatch.sharedpref
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import pl.oziem.datasource.models.Language
 import pl.oziem.datasource.models.configuration.ImagesConfiguration
 
 /** Created by marcinoziem on 12/03/2018 WhatToWatch.
@@ -48,4 +49,11 @@ class SharedPreferenceMediatorImp(val context: Context) : SharedPreferenceMediat
   override fun getPosterSizes() = getSharedPref().getStringSet(POSTER_SIZES, mutableSetOf()).toList()
   override fun getProfileSizes() = getSharedPref().getStringSet(PROFILE_SIZES, mutableSetOf()).toList()
   override fun getStillSizes() = getSharedPref().getStringSet(STILL_SIZES, mutableSetOf()).toList()
+
+  override fun saveLanguageConfiguration(languages: List<Language>) =
+    applySharedPrefChanges {
+      languages.forEach { putString(it.iso, it.englishName) }
+    }
+
+  override fun getLanguageByIso(iso: String) = getSharedPref().getString(iso, null)
 }

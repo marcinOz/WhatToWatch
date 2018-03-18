@@ -9,8 +9,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import pl.oziem.datasource.dataprovider.DataProvider
-import pl.oziem.datasource.models.Movie
-import pl.oziem.datasource.models.MovieDiscoveryResponse
+import pl.oziem.datasource.models.movie.Movie
+import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
 import pl.oziem.whattowatch.main.MovieListContract
 import pl.oziem.whattowatch.main.MovieListPresenter
 import java.util.*

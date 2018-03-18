@@ -1,6 +1,7 @@
 package pl.oziem.whattowatch.splash
 
 import android.app.Activity
+import io.reactivex.rxkotlin.Singles
 import io.reactivex.rxkotlin.subscribeBy
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
@@ -24,9 +25,11 @@ class SplashPresenter(private val view: SplashContract.View,
       view.onDataFetched()
       return
     }
-    dataProvider.getConfiguration().subscribeBy(
-      onSuccess = { configuration ->
-        sharedPrefMediator.saveImageConfiguration(configuration.imagesConfig)
+    Singles.zip(dataProvider.getConfiguration(), dataProvider.getLanguages())
+      .subscribeBy(
+      onSuccess = { configurationAndLanguages ->
+        sharedPrefMediator.saveImageConfiguration(configurationAndLanguages.first.imagesConfig)
+        sharedPrefMediator.saveLanguageConfiguration(configurationAndLanguages.second)
         view.onDataFetched()
       },
       onError = { error -> view.showError(error.message) }
