@@ -26,7 +26,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     private const val DETAILS_ACTIVITY_CODE = 11
   }
 
-  private var mTwoPane: Boolean = false
+  private var twoPane: Boolean = false
   private var content: MutableList<Movie> = mutableListOf()
   private var fragment: MovieDetailFragment? = null
 
@@ -36,7 +36,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   override fun onCreate(savedInstanceState: Bundle?) {
     MovieDetailFragment.readState(savedInstanceState)?.apply { openDetailsActivity(this) }
     AndroidInjection.inject(this)
-    super.onCreate(savedInstanceState)
+    super.onCreate(null) //to not save twoPaneState unintentionally
     setContentView(R.layout.activity_movie_list)
 
     setSupportActionBar(toolbar)
@@ -57,13 +57,11 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
       resultCode == Activity.RESULT_OK && data?.extras != null -> data.extras.apply {
         showDetailsInSecondPane(getParcelable(MovieDetailFragment.MOVIE_ARG))
       }
-      else -> {
-      }
     }
   }
 
   private fun initData(savedInstanceState: Bundle?) {
-    mTwoPane = movie_detail_container != null
+    twoPane = movie_detail_container != null
 
     savedInstanceState?.run {
       content.addAll(presenter.readSavedInstanceState(this))
@@ -108,7 +106,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   }
 
   private fun goToDetails(movie: Movie, vararg views: View) =
-    if (mTwoPane) showDetailsInSecondPane(movie)
+    if (twoPane) showDetailsInSecondPane(movie)
     else openDetailsActivity(movie, *views)
 
   private fun showDetailsInSecondPane(movie: Movie) {
