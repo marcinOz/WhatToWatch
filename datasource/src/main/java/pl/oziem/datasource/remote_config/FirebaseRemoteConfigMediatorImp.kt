@@ -5,12 +5,12 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import io.reactivex.Completable
 import pl.oziem.datasource.BuildConfig
+import pl.oziem.datasource.R
 import java.util.concurrent.TimeUnit
 
 
-/**
-* Created by Marcin Oziemski on 06.03.2018 WhatToWatch.
-*/
+/** Created by Marcin Oziemski on 06.03.2018 WhatToWatch.
+ */
 class FirebaseRemoteConfigMediatorImp : FirebaseRemoteConfigMediator {
 
   companion object {
@@ -35,10 +35,12 @@ class FirebaseRemoteConfigMediatorImp : FirebaseRemoteConfigMediator {
             // After config data is successfully fetched, it must be activated before newly fetched
             // values are returned.
             firebaseRemoteConfig.activateFetched()
-            emitter.onComplete()
-          } else {
-            emitter.onError(RuntimeException("Firebase RemoteConfig Fetch Failed"))
+            if (getTMDbApiKey().isNotEmpty()) {
+              emitter.onComplete()
+              return@addOnCompleteListener
+            }
           }
+          emitter.onError(RuntimeException(activity.getString(R.string.remote_config_fetch_failed)))
         }
     }
 
