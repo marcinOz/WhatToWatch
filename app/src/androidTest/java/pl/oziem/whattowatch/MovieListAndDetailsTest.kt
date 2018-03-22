@@ -17,36 +17,37 @@ class MovieListAndDetailsTest {
   val activityTestRule = ActivityTestRule(SplashActivity::class.java)
 
   private val itemCount = 20
-  private lateinit var robot: MoviesMasterDetailsRobot
 
 
   @Before
   fun setup() {
-    robot = MoviesMasterDetailsRobot()
-    robot.wait(TimeUnit.SECONDS.toMillis(5))
+    movies { wait(5, TimeUnit.SECONDS) }
   }
 
   @Test
   fun clickFirstItemAndGoUp() {
-    robot
-      .clickOnListItem(0)
-      .checkDetailsVisibility()
-      .navigateUp()
+    movies {
+      clickOnMovie(0)
+      checkIfMovieDetailsIsVisible()
+      navigateUp()
+    }
   }
 
   @Test
   fun clickLastItemAndGoUp() {
-    robot
-      .clickOnListItem(itemCount - 1)
-      .checkDetailsVisibility()
-      .navigateUp()
+    movies {
+      clickOnMovie(itemCount - 1)
+      checkIfMovieDetailsIsVisible()
+      navigateUp()
+    }
   }
 
   @Test
   fun clickRandomItemAndGoUp() {
-    robot
-      .clickOnListItem(Random().nextInt(itemCount - 1))
-      .checkDetailsVisibility()
-      .navigateUp()
+    movies {
+      clickOnMovie(Random().nextInt(itemCount - 1))
+      checkIfMovieDetailsIsVisible()
+      navigateUp()
+    }
   }
 }

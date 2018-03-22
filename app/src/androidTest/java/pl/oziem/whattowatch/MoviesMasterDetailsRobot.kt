@@ -12,12 +12,15 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
 import pl.oziem.whattowatch.main.MovieListAdapter.ViewHolder
+import java.util.concurrent.TimeUnit
 
 /** Created by marcinoziem on 20/03/2018 WhatToWatch.
  */
+fun movies(func: MoviesMasterDetailsRobot.() -> Unit) = MoviesMasterDetailsRobot().apply { func() }
+
 class MoviesMasterDetailsRobot {
 
-  fun clickOnListItem(position: Int): MoviesMasterDetailsRobot = apply {
+  fun clickOnMovie(position: Int): MoviesMasterDetailsRobot = apply {
     onView(allOf(
       withId(R.id.movie_list),
       childAtPosition(withId(R.id.frameLayout), 0)
@@ -35,14 +38,14 @@ class MoviesMasterDetailsRobot {
     ).perform(click())
   }
 
-  fun checkDetailsVisibility(): MoviesMasterDetailsRobot = apply {
+  fun checkIfMovieDetailsIsVisible(): MoviesMasterDetailsRobot = apply {
     onView(withId(R.id.movie_detail))
       .check(ViewAssertions.matches(isDisplayed()))
   }
 
-  fun wait(millis: Long): MoviesMasterDetailsRobot = apply {
+  fun wait(num: Long, unit: TimeUnit): MoviesMasterDetailsRobot = apply {
     try {
-      Thread.sleep(millis)
+      Thread.sleep(unit.toMillis(num))
     } catch (e: InterruptedException) {
       e.printStackTrace()
     }
