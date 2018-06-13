@@ -12,6 +12,10 @@ It also use:
  - OkHttp 3,
  - Gson,
  - Firebase - not all features ;)
+ 
+ AArchitectureComponents branch use:
+ - Android Architecture Components (Obviously :) )
+ - Moshi
 
 
 This product uses the TMDb API but is not endorsed or certified by TMDb.
