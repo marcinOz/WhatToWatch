@@ -47,6 +47,9 @@ dependencies {
   // if you use the support libraries
   kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+  implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
+  kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
+
   implementation "com.google.android.gms:play-services-base:$gmsVersion"
 
   implementation "com.android.support:appcompat-v7:$supportVersion"
