@@ -7,8 +7,11 @@ ext {
   gradle_version = '3.0.1'
 
   daggerVersion = '2.14.1'
+  lifecycleVersion = "1.1.1"
+
   supportVersion = '27.1.1'
   supportTestRunnerVersion = '1.0.2'
+
   gmsVersion = '15.0.1'
   firebaseVersion = '16.0.0'
 

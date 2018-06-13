@@ -14,8 +14,10 @@ import pl.oziem.whattowatch.splash.SplashModule
 abstract class ActivityBuilder {
 
   @ContributesAndroidInjector(modules = [(SplashModule::class)])
+  @ActivityScope
   abstract fun bindSplashActivity(): SplashActivity
 
   @ContributesAndroidInjector(modules = [(MovieListModule::class)])
+  @ActivityScope
   abstract fun bindMovieListActivity(): MovieListActivity
 }
