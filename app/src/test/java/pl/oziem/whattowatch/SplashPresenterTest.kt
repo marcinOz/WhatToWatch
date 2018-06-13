@@ -44,6 +44,7 @@ class SplashPresenterTest {
 
   private fun mockGetConfiguration(block: SingleEmitter<Configuration>.() -> Unit) {
     `when`(dataProvider.getConfiguration()).thenReturn(Single.create { e -> e.block() })
+    `when`(dataProvider.getLanguages()).thenReturn(Single.create { e -> e.onSuccess(emptyList()) })
   }
 
   @Test
