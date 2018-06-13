@@ -39,10 +39,11 @@ dependencies {
   // if you use the support libraries
   kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
-  api "com.google.code.gson:gson:$gsonVersion"
+  api "com.squareup.moshi:moshi:$moshiVersion"
+  implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
 
   implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
-  implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+  implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
   implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
