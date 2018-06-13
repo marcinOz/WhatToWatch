@@ -13,6 +13,7 @@ It also use:
  - Gson,
  - Firebase - not all features ;)
  
+ ----------------------------------
  AArchitectureComponents branch use:
  - Android Architecture Components (Obviously :) )
  - Moshi
