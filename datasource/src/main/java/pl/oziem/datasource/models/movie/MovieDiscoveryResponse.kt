@@ -1,7 +1,7 @@
 package pl.oziem.datasource.models.movie
 
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -9,8 +9,8 @@ import kotlinx.android.parcel.Parcelize
 */
 @Parcelize
 data class MovieDiscoveryResponse(
-  @SerializedName("page") val page: Int = 0,
-  @SerializedName("total_results") val totalResults: Int = 0,
-  @SerializedName("total_pages") val totalPages: Int = 0,
-  @SerializedName("results") val movies: List<Movie>? = null
+  @Json(name = "page") val page: Int = 0,
+  @Json(name = "total_results") val totalResults: Int = 0,
+  @Json(name = "total_pages") val totalPages: Int = 0,
+  @Json(name = "results") val movies: List<Movie>? = null
 ) : Parcelable

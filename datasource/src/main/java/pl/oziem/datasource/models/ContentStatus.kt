@@ -1,15 +1,15 @@
 package pl.oziem.datasource.models
 
-import com.google.gson.annotations.SerializedName
+import com.squareup.moshi.Json
 
 /**
 * Created by MarcinOz on 2018-03-07 WhatToWatch.
 */
 enum class ContentStatus {
-  @SerializedName("Rumored") RUMORED,
-  @SerializedName("Planned") PLANNED,
-  @SerializedName("In Production") IN_PRODUCTION,
-  @SerializedName("Post Production") POST_PRODUCTION,
-  @SerializedName("Released") RELEASED,
-  @SerializedName("Canceled") CANCELED
+  @Json(name = "Rumored") RUMORED,
+  @Json(name = "Planned") PLANNED,
+  @Json(name = "In Production") IN_PRODUCTION,
+  @Json(name = "Post Production") POST_PRODUCTION,
+  @Json(name = "Released") RELEASED,
+  @Json(name = "Canceled") CANCELED
 }
