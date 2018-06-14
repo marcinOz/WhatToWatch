@@ -1,40 +1,50 @@
 package pl.oziem.whattowatch
 
 import android.app.Activity
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import pl.oziem.datasource.dataprovider.DataProvider
+import pl.oziem.datasource.models.ErrorState
+import pl.oziem.datasource.models.PopulatedState
+import pl.oziem.datasource.models.ResourceState
 import pl.oziem.datasource.models.configuration.Configuration
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
-import pl.oziem.whattowatch.splash.SplashContract
-import pl.oziem.whattowatch.splash.SplashPresenter
+import pl.oziem.whattowatch.splash.SplashViewModel
 
 /** Created by marcinoziem on 12/03/2018 WhatToWatch.
  */
 class SplashPresenterTest {
 
+  @Rule
+  @JvmField
+  val instantExecutorRule = InstantTaskExecutorRule() //Very very important
+
   @Mock
   private lateinit var dataProvider: DataProvider
-  @Mock
-  private lateinit var view: SplashContract.View
   @Mock
   private lateinit var sharedPref: SharedPreferenceMediator
   @Mock
   private lateinit var activity: Activity
-  private lateinit var presenter: SplashPresenter
+  @Mock
+  lateinit var observer: Observer<ResourceState<Unit>>
+  private lateinit var viewModel: SplashViewModel
 
   @Before
   fun init() {
     MockitoAnnotations.initMocks(this)
-    presenter = SplashPresenter(view, dataProvider, sharedPref)
+    viewModel = SplashViewModel(dataProvider, sharedPref)
+      .apply { fetchedData.observeForever(observer) }
   }
 
   private fun mockFetchRemoteConfig(block: CompletableEmitter.() -> Unit) {
@@ -49,11 +59,12 @@ class SplashPresenterTest {
 
   @Test
   fun fetchData_test_fetchFail() {
-    mockFetchRemoteConfig { onError(RuntimeException()) }
+    val runtimeException = RuntimeException()
+    mockFetchRemoteConfig { onError(runtimeException) }
 
-    presenter.fetchData(activity)
+    viewModel.fetchData(activity)
 
-    verify(view).showError(null)
+    verify(observer).onChanged(ErrorState(runtimeException.message))
   }
 
   @Test
@@ -61,9 +72,9 @@ class SplashPresenterTest {
     mockFetchRemoteConfig { onComplete() }
     `when`(sharedPref.hasImageConfigBeenSaved()).thenReturn(true)
 
-    presenter.fetchData(activity)
+    viewModel.fetchData(activity)
 
-    verify(view).onDataFetched()
+    verify(observer).onChanged(PopulatedState(Unit))
   }
 
   @Test
@@ -73,9 +84,9 @@ class SplashPresenterTest {
     `when`(sharedPref.hasImageConfigBeenSaved()).thenReturn(false)
     mockGetConfiguration { onError(RuntimeException(errorMessage)) }
 
-    presenter.fetchData(activity)
+    viewModel.fetchData(activity)
 
-    verify(view).showError(errorMessage)
+    verify(observer).onChanged(ErrorState(errorMessage))
   }
 
   @Test
@@ -84,8 +95,8 @@ class SplashPresenterTest {
     `when`(sharedPref.hasImageConfigBeenSaved()).thenReturn(false)
     mockGetConfiguration { onSuccess(Configuration()) }
 
-    presenter.fetchData(activity)
+    viewModel.fetchData(activity)
 
-    verify(view).onDataFetched()
+    verify(observer).onChanged(PopulatedState(Unit))
   }
 }

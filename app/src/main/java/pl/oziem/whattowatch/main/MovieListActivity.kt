@@ -24,7 +24,7 @@ import pl.oziem.whattowatch.extensions.observe
 import pl.oziem.whattowatch.extensions.withViewModel
 import javax.inject.Inject
 
-class MovieListActivity : AppCompatActivity(), MovieListContract.View {
+class MovieListActivity : AppCompatActivity() {
 
   companion object {
     private const val DETAILS_ACTIVITY_CODE = 11
@@ -91,24 +91,24 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     is ErrorState -> showError(resourceState.message)
   }
 
-  override fun showLoading(show: Boolean) {
+  private fun showLoading(show: Boolean) {
     progressBar.visibility = if (show) View.VISIBLE else View.GONE
   }
 
-  override fun showError(message: String?) {
+  private fun showError(message: String?) {
     messageTextView.text = message ?: getString(R.string.server_error)
     messageTextView.visibility = View.VISIBLE
     showLoading(false)
   }
 
-  override fun populate(movies: List<Movie>) {
+  private fun populate(movies: List<Movie>) {
     content.addAll(movies)
     movie_list.adapter.notifyDataSetChanged()
     movie_list.scheduleLayoutAnimation()
     showLoading(false)
   }
 
-  override fun showEmptyMessage() {
+  private fun showEmptyMessage() {
     showError(getString(R.string.no_content))
   }
 
