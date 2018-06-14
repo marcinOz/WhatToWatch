@@ -1,6 +1,7 @@
 package pl.oziem.whattowatch.splash
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
@@ -17,14 +18,19 @@ import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_splash.*
+import pl.oziem.datasource.models.ErrorState
+import pl.oziem.datasource.models.PopulatedState
+import pl.oziem.datasource.models.ResourceState
 import pl.oziem.whattowatch.R
+import pl.oziem.whattowatch.extensions.observe
+import pl.oziem.whattowatch.extensions.withViewModel
 import pl.oziem.whattowatch.main.MovieListActivity
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /** Created by Marcin Oziemski on 11/03/2018 WhatToWatch.
  */
-class SplashActivity : AppCompatActivity(), SplashContract.View {
+class SplashActivity : AppCompatActivity() {
 
   companion object {
     private const val SHORT_DELAY = 500L
@@ -32,7 +38,7 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
   }
 
   @Inject
-  lateinit var presenter: SplashContract.Presenter
+  lateinit var viewModelFactory: ViewModelProvider.Factory
   private val scaleAnimation: Animation = getScaleAnimation()
   private val fadeAnimation: Animation = getFadeAnimation()
   private var dataEmitter: CompletableEmitter? = null
@@ -48,7 +54,11 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
 
     GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
       .addOnCompleteListener { task ->
-        if (task.isSuccessful) presenter.fetchData(this)
+        if (task.isSuccessful.not()) return@addOnCompleteListener
+        withViewModel<SplashViewModel>(viewModelFactory) {
+          observe(fetchedData, ::updateView)
+          fetchData(this@SplashActivity)
+        }
       }
   }
 
@@ -92,12 +102,18 @@ class SplashActivity : AppCompatActivity(), SplashContract.View {
       .subscribe { animEmitter?.onComplete() }
   }
 
-  override fun showError(message: String?) {
+  private fun updateView(resourceState: ResourceState<Unit>) = when(resourceState) {
+    is PopulatedState -> onDataFetched()
+    is ErrorState -> showError(resourceState.message)
+    else -> {/*NOTHING*/}
+  }
+
+  private fun showError(message: String?) {
     errorMessageTextView.text = message ?: getString(R.string.server_error)
     errorMessageTextView.visibility = View.VISIBLE
   }
 
-  override fun onDataFetched() {
+  private fun onDataFetched() {
     dataEmitter?.onComplete()
   }
 
