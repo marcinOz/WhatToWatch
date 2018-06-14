@@ -1,8 +1,11 @@
 package pl.oziem.whattowatch
 
+import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.Observer
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
@@ -11,22 +14,26 @@ import org.mockito.MockitoAnnotations
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
-import pl.oziem.whattowatch.main.MovieListContract
-import pl.oziem.whattowatch.main.MovieListPresenter
+import pl.oziem.datasource.models.view_state.*
+import pl.oziem.whattowatch.main.MovieListViewModel
 import java.util.*
 
-class MovieListPresenterTest {
+class MovieListViewModelTest {
+
+  @Rule
+  @JvmField
+  val instantExecutorRule = InstantTaskExecutorRule() //Very very important
 
   @Mock
   private lateinit var dataProvider: DataProvider
-  @Mock
-  private lateinit var view: MovieListContract.View
-  private lateinit var presenter: MovieListPresenter
+  @Mock lateinit var observer: Observer<ResourceState<List<Movie>>>
+  private lateinit var viewModel: MovieListViewModel
 
   @Before
   fun init() {
     MockitoAnnotations.initMocks(this)
-    presenter = MovieListPresenter(view, dataProvider)
+    viewModel = MovieListViewModel(dataProvider)
+      .apply { movieDiscover.observeForever(observer) }
   }
 
   private fun mockGetMovieDiscover(block: SingleEmitter<MovieDiscoveryResponse>.() -> Unit) {
@@ -38,20 +45,20 @@ class MovieListPresenterTest {
     val errorMessage = "error message"
     mockGetMovieDiscover { onError(RuntimeException(errorMessage)) }
 
-    presenter.getMovieDiscover()
+    viewModel.fetchMovieDiscover()
 
-    verify(view).showLoading()
-    verify(view).showError(errorMessage)
+    verify(observer).onChanged(LoadingState())
+    verify(observer).onChanged(ErrorState(errorMessage))
   }
 
   @Test
   fun getMovieDiscover_test_success_with_empty() {
     mockGetMovieDiscover { onSuccess(MovieDiscoveryResponse()) }
 
-    presenter.getMovieDiscover()
+    viewModel.fetchMovieDiscover()
 
-    verify(view).showLoading()
-    verify(view).showEmptyMessage()
+    verify(observer).onChanged(LoadingState())
+    verify(observer).onChanged(EmptyState())
   }
 
   @Test
@@ -62,9 +69,9 @@ class MovieListPresenterTest {
     )
     mockGetMovieDiscover { onSuccess(discoverResponse) }
 
-    presenter.getMovieDiscover()
+    viewModel.fetchMovieDiscover()
 
-    verify(view).showLoading()
-    verify(view).populate(discoverResponse.movies!!)
+    verify(observer).onChanged(LoadingState())
+    verify(observer).onChanged(PopulatedState(discoverResponse.movies!!))
   }
 }

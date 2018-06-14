@@ -57,7 +57,7 @@ class MovieDetailFragment : Fragment() {
     return rootView
   }
 
-  fun saveState(bundle: Bundle?): Bundle? = bundle?.apply {
+  fun saveState(bundle: Bundle?) = bundle?.apply {
     movie?.let { putParcelable(MOVIE_ARG, it) }
   }
 }
