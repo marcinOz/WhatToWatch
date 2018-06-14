@@ -4,8 +4,8 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.reactivex.rxkotlin.subscribeBy
 import pl.oziem.datasource.dataprovider.DataProvider
+import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
-import pl.oziem.datasource.models.view_state.*
 import javax.inject.Inject
 
 /**

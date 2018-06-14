@@ -15,8 +15,8 @@ import android.view.animation.AnimationUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
+import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
-import pl.oziem.datasource.models.view_state.*
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.details.MovieDetailActivity
 import pl.oziem.whattowatch.details.MovieDetailFragment
