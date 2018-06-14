@@ -2,6 +2,7 @@ package pl.oziem.whattowatch.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -15,9 +16,12 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
 import pl.oziem.datasource.models.movie.Movie
+import pl.oziem.datasource.models.view_state.*
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.details.MovieDetailActivity
 import pl.oziem.whattowatch.details.MovieDetailFragment
+import pl.oziem.whattowatch.extensions.observe
+import pl.oziem.whattowatch.extensions.withViewModel
 import javax.inject.Inject
 
 class MovieListActivity : AppCompatActivity(), MovieListContract.View {
@@ -31,7 +35,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
   private var fragment: MovieDetailFragment? = null
 
   @Inject
-  lateinit var presenter: MovieListContract.Presenter
+  lateinit var viewModelFactory: ViewModelProvider.Factory
 
   override fun onCreate(savedInstanceState: Bundle?) {
     MovieDetailFragment.readState(savedInstanceState)?.apply { openDetailsActivity(this) }
@@ -47,7 +51,7 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
         .setAction("Action", null).show()
     }
 
-    initData(savedInstanceState)
+    initData()
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -60,28 +64,31 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     }
   }
 
-  private fun initData(savedInstanceState: Bundle?) {
+  private fun initData() {
     twoPane = movie_detail_container != null
 
-    savedInstanceState?.run {
-      content.addAll(presenter.readSavedInstanceState(this))
+    withViewModel<MovieListViewModel>(viewModelFactory) {
+      observe(movieDiscover, ::updateView)
+      fetchMovieDiscover()
     }
-
     setupRecyclerView(movie_list)
-
-    if (content.isNotEmpty()) return
-    presenter.getMovieDiscover()
   }
 
   override fun onSaveInstanceState(outState: Bundle?) {
-    super.onSaveInstanceState(presenter.saveInstanceState(outState)
-      .also { fragment?.saveState(outState) })
+    super.onSaveInstanceState(outState.apply { fragment?.saveState(this) })
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
     recyclerView.layoutAnimation = AnimationUtils
       .loadLayoutAnimation(this, R.anim.layout_animation_fly_up)
     recyclerView.adapter = MovieListAdapter(content, this::goToDetails)
+  }
+
+  private fun updateView(resourceState: ResourceState<List<Movie>>) = when(resourceState) {
+    is LoadingState -> showLoading(true)
+    is PopulatedState -> populate(resourceState.data)
+    is EmptyState -> showEmptyMessage()
+    is ErrorState -> showError(resourceState.message)
   }
 
   override fun showLoading(show: Boolean) {

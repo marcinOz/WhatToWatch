@@ -3,7 +3,6 @@ package pl.oziem.whattowatch.di
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import pl.oziem.whattowatch.main.MovieListActivity
-import pl.oziem.whattowatch.main.MovieListModule
 import pl.oziem.whattowatch.splash.SplashActivity
 import pl.oziem.whattowatch.splash.SplashModule
 
@@ -17,7 +16,7 @@ abstract class ActivityBuilder {
   @ActivityScope
   abstract fun bindSplashActivity(): SplashActivity
 
-  @ContributesAndroidInjector(modules = [(MovieListModule::class)])
+  @ContributesAndroidInjector()
   @ActivityScope
   abstract fun bindMovieListActivity(): MovieListActivity
 }
