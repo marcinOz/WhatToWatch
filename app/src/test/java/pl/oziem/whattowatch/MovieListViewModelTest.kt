@@ -12,9 +12,9 @@ import org.mockito.Mockito.`when`
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import pl.oziem.datasource.dataprovider.DataProvider
+import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
-import pl.oziem.datasource.models.view_state.*
 import pl.oziem.whattowatch.main.MovieListViewModel
 import java.util.*
 
