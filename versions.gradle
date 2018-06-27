@@ -8,6 +8,7 @@ ext {
 
   daggerVersion = '2.14.1'
   lifecycleVersion = "1.1.1"
+  pagingVersion = "1.0.0"
 
   supportVersion = '27.1.1'
   supportTestRunnerVersion = '1.0.2'

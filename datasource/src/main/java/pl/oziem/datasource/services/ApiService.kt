@@ -28,5 +28,7 @@ interface ApiService {
 
   @GET("{version}/discover/movie")
   fun getMovieDiscover(@Path("version") version: Int,
-                       @Query("api_key") apiKey: String): Single<MovieDiscoveryResponse>
+                       @Query("api_key") apiKey: String,
+                       @Query("page") page: Int,
+                       @Query("include_adult") includeAdult: Boolean = false): Single<MovieDiscoveryResponse>
 }

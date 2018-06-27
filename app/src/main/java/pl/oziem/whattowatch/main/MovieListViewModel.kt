@@ -1,10 +1,14 @@
 package pl.oziem.whattowatch.main
 
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import android.arch.lifecycle.ViewModel
-import io.reactivex.rxkotlin.subscribeBy
+import android.arch.paging.LivePagedListBuilder
+import android.arch.paging.PagedList
+import io.reactivex.disposables.CompositeDisposable
 import pl.oziem.datasource.dataprovider.DataProvider
-import pl.oziem.datasource.models.*
+import pl.oziem.datasource.models.ResourceState
 import pl.oziem.datasource.models.movie.Movie
 import javax.inject.Inject
 
@@ -16,16 +20,22 @@ class MovieListViewModel @Inject constructor(private val dataProvider: DataProvi
 
   val movieDiscover = MutableLiveData<ResourceState<List<Movie>>>()
 
-  fun fetchMovieDiscover() {
-    movieDiscover.postValue(LoadingState())
-    dataProvider.getMovieDiscover().subscribeBy(
-      onSuccess = { result ->
-        if (result.totalResults == 0) movieDiscover.postValue(EmptyState())
-        else result.movies?.apply {
-          movieDiscover.postValue(PopulatedState(this))
-        }
-      },
-      onError = { error -> movieDiscover.postValue(ErrorState(error.message)) }
-    )
+  val movie: LiveData<PagedList<Movie>>
+  private val compositeDisposable = CompositeDisposable()
+  private val sourceFactory: MovieListDataSourceFactory
+
+  init {
+    sourceFactory = MovieListDataSourceFactory(dataProvider, compositeDisposable)
+    val config = PagedList.Config.Builder()
+      .setPageSize(2)
+      .setEnablePlaceholders(false)
+      .setInitialLoadSizeHint(1)
+      .build()
+    movie = LivePagedListBuilder<Int, Movie>(sourceFactory, config).build()
   }
+
+  fun getLoadState(): LiveData<ResourceState<List<Movie>>> =
+    Transformations.switchMap<MovieListDataSource, ResourceState<List<Movie>>>(
+      sourceFactory.movieListDataSourceLiveData, { it.movieDiscover }
+    )
 }

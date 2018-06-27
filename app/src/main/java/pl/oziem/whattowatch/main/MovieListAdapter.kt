@@ -1,5 +1,7 @@
 package pl.oziem.whattowatch.main
 
+import android.arch.paging.PagedListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +13,12 @@ import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.WTWApplication
 
-class MovieListAdapter(private val mValues: List<Movie>,
-                       private val onItemClick: (Movie, Array<View>) -> Unit) :
-  RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
+/**
+ * Created by marcinoziem
+ * on 26/06/2018 WhatToWatch.
+ */
+class MovieListAdapter(private val onItemClick: (Movie, Array<View>) -> Unit)
+  : PagedListAdapter<Movie, MovieListAdapter.ViewHolder>(MovieDiffCallback) {
 
   private val mOnClickListener: View.OnClickListener
 
@@ -31,14 +36,14 @@ class MovieListAdapter(private val mValues: List<Movie>,
   }
 
   override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    val item = mValues[position]
+    val item = getItem(position)
     WTWApplication.getImageLoader(holder.itemView)
-      .loadPoster(item.posterPath)
+      .loadPoster(item?.posterPath)
       .fadeTransition()
       .fitCenter()
       .error(R.drawable.vod_default_poster)
       .into(holder.poster)
-    holder.title.text = item.title
+    holder.title.text = item?.title
 
     with(holder.itemView) {
       tag = item
@@ -46,12 +51,20 @@ class MovieListAdapter(private val mValues: List<Movie>,
     }
   }
 
-  override fun getItemCount(): Int {
-    return mValues.size
-  }
-
   inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
     val poster: ImageView = mView.poster
     val title: TextView = mView.title
+  }
+
+  companion object {
+    val MovieDiffCallback = object : DiffUtil.ItemCallback<Movie>() {
+      override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem.id == newItem.id
+      }
+
+      override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+        return oldItem == newItem
+      }
+    }
   }
 }

@@ -52,6 +52,8 @@ dependencies {
   kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
   testImplementation "android.arch.core:core-testing:$lifecycleVersion"
 
+  implementation "android.arch.paging:runtime:$pagingVersion"
+
   implementation "com.google.android.gms:play-services-base:$gmsVersion"
 
   implementation "com.android.support:appcompat-v7:$supportVersion"

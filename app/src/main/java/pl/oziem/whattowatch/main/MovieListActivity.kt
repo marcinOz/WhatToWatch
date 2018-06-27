@@ -31,8 +31,8 @@ class MovieListActivity : AppCompatActivity() {
   }
 
   private var twoPane: Boolean = false
-  private var content: MutableList<Movie> = mutableListOf()
   private var fragment: MovieDetailFragment? = null
+  private lateinit var adapter: MovieListAdapter
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -68,8 +68,8 @@ class MovieListActivity : AppCompatActivity() {
     twoPane = movie_detail_container != null
 
     withViewModel<MovieListViewModel>(viewModelFactory) {
-      observe(movieDiscover, ::updateView)
-      fetchMovieDiscover()
+      observe(getLoadState(), ::updateView)
+      observe(movie, { adapter.submitList(it) })
     }
     setupRecyclerView(movie_list)
   }
@@ -81,12 +81,13 @@ class MovieListActivity : AppCompatActivity() {
   private fun setupRecyclerView(recyclerView: RecyclerView) {
     recyclerView.layoutAnimation = AnimationUtils
       .loadLayoutAnimation(this, R.anim.layout_animation_fly_up)
-    recyclerView.adapter = MovieListAdapter(content, this::goToDetails)
+    adapter = MovieListAdapter(this::goToDetails)
+    recyclerView.adapter = adapter
   }
 
   private fun updateView(resourceState: ResourceState<List<Movie>>) = when(resourceState) {
     is LoadingState -> showLoading(true)
-    is PopulatedState -> populate(resourceState.data)
+    is PopulatedState -> showLoading(false)
     is EmptyState -> showEmptyMessage()
     is ErrorState -> showError(resourceState.message)
   }
@@ -98,13 +99,6 @@ class MovieListActivity : AppCompatActivity() {
   private fun showError(message: String?) {
     messageTextView.text = message ?: getString(R.string.server_error)
     messageTextView.visibility = View.VISIBLE
-    showLoading(false)
-  }
-
-  private fun populate(movies: List<Movie>) {
-    content.addAll(movies)
-    movie_list.adapter.notifyDataSetChanged()
-    movie_list.scheduleLayoutAnimation()
     showLoading(false)
   }
 

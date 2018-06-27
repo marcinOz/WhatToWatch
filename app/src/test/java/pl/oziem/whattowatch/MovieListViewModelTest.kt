@@ -41,7 +41,7 @@ class MovieListViewModelTest {
   }
 
   @Test
-  fun getMovieDiscover_test_fail() {
+  fun fetchMovieDiscover_test_fail() {
     val errorMessage = "error message"
     mockGetMovieDiscover { onError(RuntimeException(errorMessage)) }
 
@@ -52,7 +52,7 @@ class MovieListViewModelTest {
   }
 
   @Test
-  fun getMovieDiscover_test_success_with_empty() {
+  fun fetchMovieDiscover_test_success_with_empty() {
     mockGetMovieDiscover { onSuccess(MovieDiscoveryResponse()) }
 
     viewModel.fetchMovieDiscover()
@@ -62,7 +62,7 @@ class MovieListViewModelTest {
   }
 
   @Test
-  fun getMovieDiscover_test_success_with_data() {
+  fun fetchMovieDiscover_test_success_with_data() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
       movies = listOf(Movie())

@@ -41,7 +41,7 @@ class DataProviderImp(private val apiService: ApiService,
     apiService.getMovieDetailsById(API_VERSION, movieId, firebaseRemoteConfigMediator.getTMDbApiKey())
       .defaultThreads()
 
-  override fun getMovieDiscover(): Single<MovieDiscoveryResponse> =
-    apiService.getMovieDiscover(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
+  override fun getMovieDiscover(page: Int): Single<MovieDiscoveryResponse> =
+    apiService.getMovieDiscover(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey(), page)
       .defaultThreads()
 }
