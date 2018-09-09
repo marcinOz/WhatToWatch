@@ -1,6 +1,7 @@
 package pl.oziem.datasource.models.movie
 
 import android.os.Parcelable
+import android.support.v7.util.DiffUtil
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
@@ -23,4 +24,16 @@ data class Movie(@Json(name = "id") val id: String = "",
                  @Json(name = "overview") val overview: String = "",
                  @Json(name = "poster_path") val posterPath: String? = null,
                  @Json(name = "popularity") val popularity: Float = 0f
-) : Parcelable
+) : Parcelable {
+  companion object {
+      val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Movie>() {
+        override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+          return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+          return oldItem == newItem
+        }
+      }
+  }
+}

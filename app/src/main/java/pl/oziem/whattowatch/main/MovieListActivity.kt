@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -69,7 +70,7 @@ class MovieListActivity : AppCompatActivity() {
 
     withViewModel<MovieListViewModel>(viewModelFactory) {
       observe(getLoadState(), ::updateView)
-      observe(movie, { adapter.submitList(it) })
+      observe(pagedListData) { adapter.submitList(it) }
     }
     setupRecyclerView(movie_list)
   }
@@ -82,10 +83,18 @@ class MovieListActivity : AppCompatActivity() {
     recyclerView.layoutAnimation = AnimationUtils
       .loadLayoutAnimation(this, R.anim.layout_animation_fly_up)
     adapter = MovieListAdapter(this::goToDetails)
+
+    (recyclerView.layoutManager as GridLayoutManager).apply {
+      spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int =
+          if (adapter.isLastItemPosition(position)) this@apply.spanCount
+          else 1
+      }
+    }
     recyclerView.adapter = adapter
   }
 
-  private fun updateView(resourceState: ResourceState<List<Movie>>) = when(resourceState) {
+  private fun updateView(resourceState: ResourceState) = when (resourceState) {
     is LoadingState -> showLoading(true)
     is PopulatedState -> showLoading(false)
     is EmptyState -> showEmptyMessage()
@@ -93,7 +102,8 @@ class MovieListActivity : AppCompatActivity() {
   }
 
   private fun showLoading(show: Boolean) {
-    progressBar.visibility = if (show) View.VISIBLE else View.GONE
+    if (!show && progressBar.visibility == View.VISIBLE) progressBar.visibility = View.GONE
+    adapter.shouldShowLoading(show)
   }
 
   private fun showError(message: String?) {

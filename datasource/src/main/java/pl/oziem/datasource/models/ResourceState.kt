@@ -4,22 +4,9 @@ package pl.oziem.datasource.models
  * Created by marcinoziem
  * on 13/06/2018 WhatToWatch.
  */
-sealed class ResourceState<T>
+sealed class ResourceState
 
-class LoadingState<T> : ResourceState<T>() {
-  override fun hashCode(): Int = javaClass.hashCode()
-  override fun equals(other: Any?) = equalz(other)
-}
-class EmptyState<T> : ResourceState<T>() {
-  override fun hashCode(): Int = javaClass.hashCode()
-  override fun equals(other: Any?) = equalz(other)
-}
-data class PopulatedState<T>(val data: T) : ResourceState<T>()
-data class ErrorState<T>(val message: String?) : ResourceState<T>()
-
-
-private inline fun <reified T : ResourceState<*>> T.equalz(other: Any?) = when {
-  this === other -> true
-  other !is T -> false
-  else -> true
-}
+object LoadingState : ResourceState()
+object EmptyState : ResourceState()
+object PopulatedState : ResourceState()
+data class ErrorState(val message: String?) : ResourceState()

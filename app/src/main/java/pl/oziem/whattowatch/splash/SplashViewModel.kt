@@ -21,10 +21,10 @@ class SplashViewModel @Inject constructor(private val dataProvider: DataProvider
                                           private val sharedPrefMediator: SharedPreferenceMediator)
   : ViewModel() {
 
-  val fetchedData = MutableLiveData<ResourceState<Unit>>()
+  val fetchedData = MutableLiveData<ResourceState>()
 
   fun fetchData(activity: Activity) {
-    fetchedData.postValue(LoadingState())
+    fetchedData.postValue(LoadingState)
     dataProvider.fetchRemoteConfig(activity).subscribeBy(
       onComplete = { getConfiguration() },
       onError = { error -> fetchedData.postValue(ErrorState(error.message)) }
@@ -33,7 +33,7 @@ class SplashViewModel @Inject constructor(private val dataProvider: DataProvider
 
   private fun getConfiguration() {
     if (sharedPrefMediator.hasImageConfigBeenSaved()) {
-      fetchedData.postValue(PopulatedState(Unit))
+      fetchedData.postValue(PopulatedState)
       return
     }
     Singles.zip(dataProvider.getConfiguration(), dataProvider.getLanguages())
@@ -41,7 +41,7 @@ class SplashViewModel @Inject constructor(private val dataProvider: DataProvider
         onSuccess = { configurationAndLanguages ->
           sharedPrefMediator.saveImageConfiguration(configurationAndLanguages.first.imagesConfig)
           sharedPrefMediator.saveLanguageConfiguration(configurationAndLanguages.second)
-          fetchedData.postValue(PopulatedState(Unit))
+          fetchedData.postValue(PopulatedState)
         },
         onError = { error -> fetchedData.postValue(ErrorState(error.message)) }
       )

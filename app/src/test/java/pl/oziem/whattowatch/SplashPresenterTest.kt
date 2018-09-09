@@ -37,7 +37,7 @@ class SplashPresenterTest {
   @Mock
   private lateinit var activity: Activity
   @Mock
-  lateinit var observer: Observer<ResourceState<Unit>>
+  lateinit var observer: Observer<ResourceState>
   private lateinit var viewModel: SplashViewModel
 
   @Before
@@ -74,7 +74,7 @@ class SplashPresenterTest {
 
     viewModel.fetchData(activity)
 
-    verify(observer).onChanged(PopulatedState(Unit))
+    verify(observer).onChanged(PopulatedState)
   }
 
   @Test
@@ -97,6 +97,6 @@ class SplashPresenterTest {
 
     viewModel.fetchData(activity)
 
-    verify(observer).onChanged(PopulatedState(Unit))
+    verify(observer).onChanged(PopulatedState)
   }
 }

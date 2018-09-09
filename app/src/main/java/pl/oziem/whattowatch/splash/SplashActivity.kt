@@ -102,7 +102,7 @@ class SplashActivity : AppCompatActivity() {
       .subscribe { animEmitter?.onComplete() }
   }
 
-  private fun updateView(resourceState: ResourceState<Unit>) = when(resourceState) {
+  private fun updateView(resourceState: ResourceState) = when(resourceState) {
     is PopulatedState -> onDataFetched()
     is ErrorState -> showError(resourceState.message)
     else -> {/*NOTHING*/}
