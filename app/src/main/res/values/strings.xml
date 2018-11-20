@@ -8,4 +8,24 @@
   <string name="poster">poster</string>
   <string name="title">title</string>
   <string name="subtitle">Release Date: %1$s \nOriginal Language: %2$s</string>
+  <string name="profile">Profile</string>
+  <string name="email">Email</string>
+  <string name="password">Password</string>
+  <string name="signin">SignIn</string>
+  <string name="sign_in">Sign In</string>
+  <string name="ok">OK</string>
+
+  <!-- Auth Errors -->
+  <string name="invalid_password_title">Invalid Password</string>
+  <string name="invalid_email_title">Invalid Email</string>
+  <string name="invalid_email_message">There is no user with that email.</string>
+  <string name="invalid_credentials_title">Invalid Credentials</string>
+  <string name="invalid_credentials_message">The password is invalid or the user does not have a password.</string>
+  <string name="sign_in_error">Sign in Error</string>
+
+  <!-- Common Errors -->
+  <string name="network_error_title">Network Error</string>
+  <string name="network_error_message">Check if you have working internet connection.</string>
+  <string name="unexpected_error_title">Unexpected Error</string>
+  <string name="unexpected_error_message">Something when wrong, sorry for inconvenience.</string>
 </resources>

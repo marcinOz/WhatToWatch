@@ -1,29 +1,35 @@
 ext {
   minSdkVersion = 21
-  compileSdkVersion = 27
+  compileSdkVersion = 28
 
-  buildToolsVersion = '28.0.0'
-  kotlin_version = '1.2.61'
-  gradle_version = '3.1.4'
+  buildToolsVersion = '28.0.3'
+
+  kotlin_version = '1.3.0'
+  gradle_version = '3.2.1'
 
   daggerVersion = '2.15'
   lifecycleVersion = "1.1.1"
   pagingVersion = "1.0.1"
 
-  supportVersion = '27.1.1'
+  supportVersion = '28.0.0'
   supportTestRunnerVersion = '1.0.2'
 
-  gmsVersion = '15.0.1'
-  firebaseVersion = '16.0.0'
+  gmsVersion = '16.0.1'
+
+  firebaseCoreVersion = '16.0.4'
+  firebaseConfigVersion = '16.0.1'
+  firebaseAuthVersion = '16.0.4'
 
   okHttpVersion = '3.10.0'
   retrofitVersion = '2.3.0'
   moshiVersion = '1.6.0'
 
-  glideVersion = '4.6.1'
+  glideVersion = '4.8.0'
+
+  ankoVersion = '0.10.7'
 
   rxVersion = '2.1.1'
-  rxAndroidVersion = '2.0.1'
+  rxAndroidVersion = '2.1.0'
   rxKotlinVersion = '2.1.0'
 
   expressoVersion = '3.0.2'

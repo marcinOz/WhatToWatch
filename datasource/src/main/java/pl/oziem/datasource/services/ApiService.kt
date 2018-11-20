@@ -10,17 +10,17 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 /**
-* Created by MarcinOz on 2018-03-02 WhatToWatch.
-*/
+ * Created by MarcinOz on 2018-03-02 WhatToWatch.
+ */
 interface ApiService {
 
   @GET("{version}/configuration")
   fun getConfiguration(@Path("version") version: Int,
-                          @Query("api_key") apiKey: String): Single<Configuration>
+                       @Query("api_key") apiKey: String): Single<Configuration>
 
   @GET("{version}/configuration/languages")
   fun getLanguages(@Path("version") version: Int,
-                          @Query("api_key") apiKey: String): Single<List<Language>>
+                   @Query("api_key") apiKey: String): Single<List<Language>>
 
   @GET("{version}/movie/{id}")
   fun getMovieDetailsById(@Path("version") version: Int, @Path("id") movieId: Int,

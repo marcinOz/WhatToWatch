@@ -56,10 +56,14 @@
 }
 # ---------------------------------------------------------------
 
-#Dagger 2
+# Dagger 2
 -dontwarn com.google.errorprone.annotations.**
 
-#okHttp 3
+# OkHttp 3
 -dontwarn okhttp3.**
 -keep class okhttp3.* { *; }
 -dontwarn okio.**
+
+# Firebase Auth
+-keepattributes Signature
+-keepattributes *Annotation*

@@ -1,4 +1,4 @@
-package pl.oziem.whattowatch.extensions
+package pl.oziem.commons
 
 import android.arch.lifecycle.*
 import android.support.v4.app.FragmentActivity

@@ -11,18 +11,21 @@ import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
+import pl.oziem.commons.observe
+import pl.oziem.commons.withViewModel
 import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.details.MovieDetailActivity
 import pl.oziem.whattowatch.details.MovieDetailFragment
-import pl.oziem.whattowatch.extensions.observe
-import pl.oziem.whattowatch.extensions.withViewModel
+import pl.oziem.whattowatch.profile.ProfileActivity
 import javax.inject.Inject
 
 class MovieListActivity : AppCompatActivity() {
@@ -55,12 +58,25 @@ class MovieListActivity : AppCompatActivity() {
     initData()
   }
 
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.movie_list, menu)
+    return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    R.id.profile -> {
+      ProfileActivity.start(this)
+      true
+    }
+    else -> super.onOptionsItemSelected(item)
+  }
+
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode != DETAILS_ACTIVITY_CODE) return
-    when {
-      resultCode == Activity.RESULT_OK && data?.extras != null -> data.extras.apply {
-        showDetailsInSecondPane(getParcelable(MovieDetailFragment.MOVIE_ARG))
+    if (resultCode == Activity.RESULT_OK && data?.extras != null) {
+      data.extras?.getParcelable<Movie>(MovieDetailFragment.MOVIE_ARG)?.let {
+        showDetailsInSecondPane(it)
       }
     }
   }
@@ -121,16 +137,18 @@ class MovieListActivity : AppCompatActivity() {
     else openDetailsActivity(movie, *views)
 
   private fun showDetailsInSecondPane(movie: Movie) {
-    fragment = MovieDetailFragment().apply {
-      arguments = Bundle().apply {
-        putParcelable(MovieDetailFragment.MOVIE_ARG, movie)
+    fragment = MovieDetailFragment()
+      .apply {
+        arguments = Bundle().apply {
+          putParcelable(MovieDetailFragment.MOVIE_ARG, movie)
+        }
+      }.also {
+        supportFragmentManager
+          .beginTransaction()
+          .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+          .replace(R.id.movie_detail_container, it)
+          .commit()
       }
-    }
-    supportFragmentManager
-      .beginTransaction()
-      .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-      .replace(R.id.movie_detail_container, fragment)
-      .commit()
   }
 
   @SuppressLint("RestrictedApi")

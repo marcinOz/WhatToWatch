@@ -5,6 +5,7 @@ import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import pl.oziem.datasource.DataSourceModule
+import pl.oziem.datasource.auth.AuthRepository
 import pl.oziem.whattowatch.WTWApplication
 import pl.oziem.whattowatch.image_loader.ImageLoader
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
@@ -34,4 +35,5 @@ interface AppComponent {
 
   fun getImageLoader(): ImageLoader
   fun getSharedPrefMediator(): SharedPreferenceMediator
+  fun getAuthRepository(): AuthRepository
 }

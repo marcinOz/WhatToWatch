@@ -9,6 +9,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import pl.oziem.datasource.analytics.AnalyticsMediator
 import pl.oziem.datasource.analytics.FirebaseAnalyticsMediatorImp
+import pl.oziem.datasource.auth.AuthRepository
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.dataprovider.DataProviderImp
 import pl.oziem.datasource.remote_config.FirebaseRemoteConfigMediator
@@ -70,4 +71,8 @@ open class DataSourceModule {
 
   @Provides
   fun provideAnalyticsMediator(): AnalyticsMediator = FirebaseAnalyticsMediatorImp()
+
+  @Provides
+  @Singleton
+  fun provideAuthRepo(): AuthRepository = AuthRepository()
 }

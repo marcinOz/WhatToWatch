@@ -18,12 +18,12 @@ import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_splash.*
+import pl.oziem.commons.observe
+import pl.oziem.commons.withViewModel
 import pl.oziem.datasource.models.ErrorState
 import pl.oziem.datasource.models.PopulatedState
 import pl.oziem.datasource.models.ResourceState
 import pl.oziem.whattowatch.R
-import pl.oziem.whattowatch.extensions.observe
-import pl.oziem.whattowatch.extensions.withViewModel
 import pl.oziem.whattowatch.main.MovieListActivity
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

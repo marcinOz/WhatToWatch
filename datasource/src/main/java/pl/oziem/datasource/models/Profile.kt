@@ -1,0 +1,11 @@
+package pl.oziem.datasource.models
+
+import android.net.Uri
+
+data class Profile(
+  val id: String,
+  val name: String?,
+  val email: String,
+  val emailVerified: Boolean,
+  val photoUrl: Uri?
+)

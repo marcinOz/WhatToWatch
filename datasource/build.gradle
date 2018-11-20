@@ -41,25 +41,33 @@ dependencies {
   // if you use the support libraries
   kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
+  // Moshi
   api "com.squareup.moshi:moshi:$moshiVersion"
   implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
 
+  // Retrofit
   implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
   implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
   implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
+  // OkHttp
   api "com.squareup.okhttp3:okhttp:$okHttpVersion"
   api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
+  // RX
   api "io.reactivex.rxjava2:rxjava:$rxVersion"
   api "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
   api "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
 
-  api ("com.google.firebase:firebase-core:$firebaseVersion") {
+  // Firebase
+  api ("com.google.firebase:firebase-core:$firebaseCoreVersion") {
     exclude group: 'com.android.support'
   }
-  implementation ("com.google.firebase:firebase-config:$firebaseVersion") {
+  implementation ("com.google.firebase:firebase-config:$firebaseConfigVersion") {
+    exclude group: 'com.android.support'
+  }
+  implementation ("com.google.firebase:firebase-auth:$firebaseAuthVersion") {
     exclude group: 'com.android.support'
   }
 

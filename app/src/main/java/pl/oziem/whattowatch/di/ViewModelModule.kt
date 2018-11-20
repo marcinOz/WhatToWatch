@@ -7,6 +7,7 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import pl.oziem.whattowatch.main.MovieListViewModel
+import pl.oziem.whattowatch.signin.SignInViewModel
 import pl.oziem.whattowatch.splash.SplashViewModel
 import javax.inject.Inject
 import javax.inject.Provider
@@ -45,5 +46,10 @@ abstract class ViewModelModule {
   @IntoMap
   @ViewModelKey(SplashViewModel::class)
   internal abstract fun postSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+  @Binds
+  @IntoMap
+  @ViewModelKey(SignInViewModel::class)
+  internal abstract fun postSigninViewModel(viewModel: SignInViewModel): ViewModel
 
 }
