@@ -56,6 +56,7 @@ class SignInActivity : AppCompatActivity() {
     compositeDisposable += passwordInputEditText.textChanges()
       .subscribe { passwordInputLayout.error = null }
 
+    backArrow.setOnClickListener { onBackPressed() }
     signInButton.setOnClickListener {
       viewModel.onSignInClick(
         emailInputEditText.text.toString(),

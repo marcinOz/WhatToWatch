@@ -8,4 +8,6 @@ data class Profile(
   val email: String,
   val emailVerified: Boolean,
   val photoUrl: Uri?
-)
+) {
+  val viewingName get() = if(!name.isNullOrEmpty()) name else email
+}

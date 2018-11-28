@@ -29,7 +29,7 @@ class LoginFlow(
   forState(CheckCredentialsState) { _, action ->
     when (action) {
       is CheckCredentialsState.Action.Success -> goto(LoadingState) using action.credentials
-      is CheckCredentialsState.Action.Failure -> goto(LoginFormState) using action.signInFields
+      is CheckCredentialsState.Action.Failure -> goBackTo(LoginFormState)
     }
   }
 
@@ -49,7 +49,7 @@ class LoginFlow(
 
   forState(ErrorState) { _, action ->
     when (action) {
-      is ErrorState.Action.Dismiss -> goto(LoginFormState) using SignInFields("")
+      is ErrorState.Action.Dismiss -> goBackTo(LoadingState)
     }
   }
 
