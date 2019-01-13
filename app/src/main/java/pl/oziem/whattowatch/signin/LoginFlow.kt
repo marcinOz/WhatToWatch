@@ -49,7 +49,7 @@ class LoginFlow(
 
   forState(ErrorState) { _, action ->
     when (action) {
-      is ErrorState.Action.Dismiss -> goBackTo(LoadingState)
+      is ErrorState.Action.Dismiss -> goBackTo(LoginFormState)
     }
   }
 

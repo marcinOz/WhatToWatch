@@ -69,6 +69,7 @@
       android:id="@+id/emailInputEditText"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:inputType="textEmailAddress"
       android:autofillHints="emailAddress"
       android:hint="@string/email"
       android:importantForAutofill="yes" />
@@ -92,6 +93,7 @@
       android:id="@+id/passwordInputEditText"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
+      android:inputType="textPassword"
       android:autofillHints="password"
       android:hint="@string/password" />
 
