@@ -1,15 +1,15 @@
 package pl.oziem.datasource
 
 import android.content.Context
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import pl.oziem.datasource.analytics.AnalyticsMediator
 import pl.oziem.datasource.analytics.FirebaseAnalyticsMediatorImp
+import pl.oziem.datasource.auth.AuthRepository
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.dataprovider.DataProviderImp
 import pl.oziem.datasource.remote_config.FirebaseRemoteConfigMediator
@@ -17,7 +17,7 @@ import pl.oziem.datasource.remote_config.FirebaseRemoteConfigMediatorImp
 import pl.oziem.datasource.services.ApiService
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.io.File
 import java.util.concurrent.TimeUnit
@@ -42,16 +42,14 @@ open class DataSourceModule {
       .build()
 
   @Provides
-  fun provideGson(): Gson {
-    val gsonBuilder = GsonBuilder()
-    gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-    return gsonBuilder.create()
-  }
+  fun provideMoshi(): Moshi = Moshi.Builder()
+    .add(KotlinJsonAdapterFactory())
+    .build()
 
   @Provides
-  fun provideApiService(gson: Gson, okHttpClient: OkHttpClient, context: Context): ApiService {
+  fun provideApiService(moshi: Moshi, okHttpClient: OkHttpClient, context: Context): ApiService {
     val retrofit = Retrofit.Builder()
-      .addConverterFactory(GsonConverterFactory.create(gson))
+      .addConverterFactory(MoshiConverterFactory.create(moshi))
       .addConverterFactory(ScalarsConverterFactory.create())
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
       .client(okHttpClient)
@@ -73,4 +71,8 @@ open class DataSourceModule {
 
   @Provides
   fun provideAnalyticsMediator(): AnalyticsMediator = FirebaseAnalyticsMediatorImp()
+
+  @Provides
+  @Singleton
+  fun provideAuthRepo(): AuthRepository = AuthRepository()
 }

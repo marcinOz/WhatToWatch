@@ -2,36 +2,44 @@ package pl.oziem.whattowatch.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_movie_list.*
 import kotlinx.android.synthetic.main.movie_list.*
+import pl.oziem.commons.observe
+import pl.oziem.commons.withViewModel
+import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.details.MovieDetailActivity
 import pl.oziem.whattowatch.details.MovieDetailFragment
+import pl.oziem.whattowatch.profile.ProfileActivity
 import javax.inject.Inject
 
-class MovieListActivity : AppCompatActivity(), MovieListContract.View {
+class MovieListActivity : AppCompatActivity() {
 
   companion object {
     private const val DETAILS_ACTIVITY_CODE = 11
   }
 
   private var twoPane: Boolean = false
-  private var content: MutableList<Movie> = mutableListOf()
   private var fragment: MovieDetailFragment? = null
+  private lateinit var adapter: MovieListAdapter
 
   @Inject
-  lateinit var presenter: MovieListContract.Presenter
+  lateinit var viewModelFactory: ViewModelProvider.Factory
 
   override fun onCreate(savedInstanceState: Bundle?) {
     MovieDetailFragment.readState(savedInstanceState)?.apply { openDetailsActivity(this) }
@@ -47,61 +55,80 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
         .setAction("Action", null).show()
     }
 
-    initData(savedInstanceState)
+    initData()
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    menuInflater.inflate(R.menu.movie_list, menu)
+    return super.onCreateOptionsMenu(menu)
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    R.id.profile -> {
+      ProfileActivity.start(this)
+      true
+    }
+    else -> super.onOptionsItemSelected(item)
   }
 
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     if (requestCode != DETAILS_ACTIVITY_CODE) return
-    when {
-      resultCode == Activity.RESULT_OK && data?.extras != null -> data.extras.apply {
-        showDetailsInSecondPane(getParcelable(MovieDetailFragment.MOVIE_ARG))
+    if (resultCode == Activity.RESULT_OK && data?.extras != null) {
+      data.extras?.getParcelable<Movie>(MovieDetailFragment.MOVIE_ARG)?.let {
+        showDetailsInSecondPane(it)
       }
     }
   }
 
-  private fun initData(savedInstanceState: Bundle?) {
+  private fun initData() {
     twoPane = movie_detail_container != null
 
-    savedInstanceState?.run {
-      content.addAll(presenter.readSavedInstanceState(this))
+    withViewModel<MovieListViewModel>(viewModelFactory) {
+      observe(getLoadState(), ::updateView)
+      observe(pagedListData) { adapter.submitList(it) }
     }
-
     setupRecyclerView(movie_list)
-
-    if (content.isNotEmpty()) return
-    presenter.getMovieDiscover()
   }
 
   override fun onSaveInstanceState(outState: Bundle?) {
-    super.onSaveInstanceState(presenter.saveInstanceState(outState)
-      .also { fragment?.saveState(outState) })
+    super.onSaveInstanceState(outState.apply { fragment?.saveState(this) })
   }
 
   private fun setupRecyclerView(recyclerView: RecyclerView) {
     recyclerView.layoutAnimation = AnimationUtils
       .loadLayoutAnimation(this, R.anim.layout_animation_fly_up)
-    recyclerView.adapter = MovieListAdapter(content, this::goToDetails)
+    adapter = MovieListAdapter(this::goToDetails)
+
+    (recyclerView.layoutManager as GridLayoutManager).apply {
+      spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int =
+          if (adapter.isLastItemPosition(position)) this@apply.spanCount
+          else 1
+      }
+    }
+    recyclerView.adapter = adapter
   }
 
-  override fun showLoading(show: Boolean) {
-    progressBar.visibility = if (show) View.VISIBLE else View.GONE
+  private fun updateView(resourceState: ResourceState) = when (resourceState) {
+    is LoadingState -> showLoading(true)
+    is PopulatedState -> showLoading(false)
+    is EmptyState -> showEmptyMessage()
+    is ErrorState -> showError(resourceState.message)
   }
 
-  override fun showError(message: String?) {
+  private fun showLoading(show: Boolean) {
+    if (!show && progressBar.visibility == View.VISIBLE) progressBar.visibility = View.GONE
+    adapter.shouldShowLoading(show)
+  }
+
+  private fun showError(message: String?) {
     messageTextView.text = message ?: getString(R.string.server_error)
     messageTextView.visibility = View.VISIBLE
     showLoading(false)
   }
 
-  override fun populate(movies: List<Movie>) {
-    content.addAll(movies)
-    movie_list.adapter.notifyDataSetChanged()
-    movie_list.scheduleLayoutAnimation()
-    showLoading(false)
-  }
-
-  override fun showEmptyMessage() {
+  private fun showEmptyMessage() {
     showError(getString(R.string.no_content))
   }
 
@@ -110,16 +137,18 @@ class MovieListActivity : AppCompatActivity(), MovieListContract.View {
     else openDetailsActivity(movie, *views)
 
   private fun showDetailsInSecondPane(movie: Movie) {
-    fragment = MovieDetailFragment().apply {
-      arguments = Bundle().apply {
-        putParcelable(MovieDetailFragment.MOVIE_ARG, movie)
+    fragment = MovieDetailFragment()
+      .apply {
+        arguments = Bundle().apply {
+          putParcelable(MovieDetailFragment.MOVIE_ARG, movie)
+        }
+      }.also {
+        supportFragmentManager
+          .beginTransaction()
+          .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
+          .replace(R.id.movie_detail_container, it)
+          .commit()
       }
-    }
-    supportFragmentManager
-      .beginTransaction()
-      .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-      .replace(R.id.movie_detail_container, fragment)
-      .commit()
   }
 
   @SuppressLint("RestrictedApi")

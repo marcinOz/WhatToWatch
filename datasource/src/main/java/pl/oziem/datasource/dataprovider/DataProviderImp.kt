@@ -13,35 +13,36 @@ import pl.oziem.datasource.remote_config.FirebaseRemoteConfigMediator
 import pl.oziem.datasource.services.ApiService
 
 /**
-* Created by MarcinOz on 2018-03-02 WhatToWatch.
-*/
+ * Created by MarcinOz on 2018-03-02 WhatToWatch.
+ */
 class DataProviderImp(private val apiService: ApiService,
                       private val firebaseRemoteConfigMediator: FirebaseRemoteConfigMediator)
   : DataProvider {
 
   companion object {
-      private const val API_VERSION = 3
+    private const val API_VERSION = 3
   }
 
-  private fun <T> Single<T>.defaultThreads(): Single<T> =
-    this.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+  private fun <T> Single<T>.withDefaultThreads(): Single<T> = this
+    .subscribeOn(Schedulers.io())
+    .observeOn(AndroidSchedulers.mainThread())
 
   override fun fetchRemoteConfig(activity: Activity): Completable =
     firebaseRemoteConfigMediator.fetch(activity)
 
   override fun getConfiguration(): Single<Configuration> =
     apiService.getConfiguration(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
-      .defaultThreads()
+      .withDefaultThreads()
 
   override fun getLanguages(): Single<List<Language>> =
     apiService.getLanguages(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
-      .defaultThreads()
+      .withDefaultThreads()
 
   override fun getMovieDetailsById(movieId: Int): Single<MovieDetails> =
     apiService.getMovieDetailsById(API_VERSION, movieId, firebaseRemoteConfigMediator.getTMDbApiKey())
-      .defaultThreads()
+      .withDefaultThreads()
 
-  override fun getMovieDiscover(): Single<MovieDiscoveryResponse> =
-    apiService.getMovieDiscover(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
-      .defaultThreads()
+  override fun getMovieDiscover(page: Int): Single<MovieDiscoveryResponse> =
+    apiService.getMovieDiscover(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey(), page)
+      .withDefaultThreads()
 }

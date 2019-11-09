@@ -14,7 +14,7 @@ import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
 interface DataProvider {
   fun getMovieDetailsById(movieId: Int): Single<MovieDetails>
   fun fetchRemoteConfig(activity: Activity): Completable
-  fun getMovieDiscover(): Single<MovieDiscoveryResponse>
+  fun getMovieDiscover(page: Int): Single<MovieDiscoveryResponse>
   fun getConfiguration(): Single<Configuration>
   fun getLanguages(): Single<List<Language>>
 }

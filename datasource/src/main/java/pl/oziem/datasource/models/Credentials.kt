@@ -1,0 +1,6 @@
+package pl.oziem.datasource.models
+
+data class Credentials(
+  val email: String,
+  val password: String
+)

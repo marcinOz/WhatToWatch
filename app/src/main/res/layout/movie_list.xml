@@ -9,5 +9,6 @@
   android:orientation="vertical"
   app:layoutManager="android.support.v7.widget.GridLayoutManager"
   app:spanCount="@integer/movie_list_span_count"
+  android:scrollbars="vertical"
   tools:context="pl.oziem.whattowatch.main.MovieListActivity"
   tools:listitem="@layout/movie_list_content" />

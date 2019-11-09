@@ -18,6 +18,8 @@
     </option>
     <envs />
     <patterns />
-    <method />
+    <method>
+      <option name="Android.Gradle.BeforeRunTask" enabled="true" />
+    </method>
   </configuration>
 </component>
