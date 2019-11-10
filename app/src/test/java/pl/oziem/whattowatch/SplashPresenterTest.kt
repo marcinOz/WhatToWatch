@@ -1,8 +1,8 @@
 package pl.oziem.whattowatch
 
 import android.app.Activity
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
 import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
 import io.reactivex.Single

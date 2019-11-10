@@ -1,8 +1,8 @@
 package pl.oziem.whattowatch
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule
-import android.arch.lifecycle.Observer
-import android.arch.paging.PagedList
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import org.junit.Before

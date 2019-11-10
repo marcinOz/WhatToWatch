@@ -1,15 +1,14 @@
 package pl.oziem.whattowatch.splash
 
-import android.app.Activity
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import io.reactivex.rxkotlin.Singles
-import io.reactivex.rxkotlin.subscribeBy
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.ErrorState
 import pl.oziem.datasource.models.LoadingState
 import pl.oziem.datasource.models.PopulatedState
-import pl.oziem.datasource.models.ResourceState
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 import javax.inject.Inject
 
@@ -17,33 +16,29 @@ import javax.inject.Inject
  * Created by marcinoziem
  * on 14/06/2018 WhatToWatch.
  */
-class SplashViewModel @Inject constructor(private val dataProvider: DataProvider,
-                                          private val sharedPrefMediator: SharedPreferenceMediator)
-  : ViewModel() {
+class SplashViewModel @Inject constructor(
+  private val dataProvider: DataProvider,
+  private val sharedPrefMediator: SharedPreferenceMediator
+) : ViewModel() {
 
-  val fetchedData = MutableLiveData<ResourceState>()
+  val fetchedData = liveData(Dispatchers.IO) {
+    emit(LoadingState)
+    try {
+      dataProvider.fetchRemoteConfig()
 
-  fun fetchData(activity: Activity) {
-    fetchedData.postValue(LoadingState)
-    dataProvider.fetchRemoteConfig(activity).subscribeBy(
-      onComplete = { getConfiguration() },
-      onError = { error -> fetchedData.postValue(ErrorState(error.message)) }
-    )
-  }
+      if (sharedPrefMediator.hasImageConfigBeenSaved()) {
+        emit(PopulatedState)
+        return@liveData
+      }
 
-  private fun getConfiguration() {
-    if (sharedPrefMediator.hasImageConfigBeenSaved()) {
-      fetchedData.postValue(PopulatedState)
-      return
+      val config = viewModelScope.async { dataProvider.getConfiguration() }
+      val languages = viewModelScope.async { dataProvider.getLanguages() }
+
+      sharedPrefMediator.saveImageConfiguration(config.await().imagesConfig)
+      sharedPrefMediator.saveLanguageConfiguration(languages.await())
+      emit(PopulatedState)
+    } catch (e: Throwable) {
+      emit(ErrorState(e.message))
     }
-    Singles.zip(dataProvider.getConfiguration(), dataProvider.getLanguages())
-      .subscribeBy(
-        onSuccess = { configurationAndLanguages ->
-          sharedPrefMediator.saveImageConfiguration(configurationAndLanguages.first.imagesConfig)
-          sharedPrefMediator.saveLanguageConfiguration(configurationAndLanguages.second)
-          fetchedData.postValue(PopulatedState)
-        },
-        onError = { error -> fetchedData.postValue(ErrorState(error.message)) }
-      )
   }
 }

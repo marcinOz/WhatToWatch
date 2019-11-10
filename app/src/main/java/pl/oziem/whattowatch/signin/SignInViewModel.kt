@@ -1,6 +1,7 @@
 package pl.oziem.whattowatch.signin
 
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.mboudraa.flow.Flow
 import com.mboudraa.flow.State
 import kotlinx.coroutines.CoroutineScope
@@ -17,18 +18,11 @@ class SignInViewModel @Inject constructor(
   authRepository: AuthRepository
 ) : ViewModel() {
 
-  private val uiScope = CoroutineScope(Dispatchers.Main)
-
-  private val flow = LoginFlow(authRepository, uiScope)
-
-  override fun onCleared() {
-    super.onCleared()
-    uiScope.coroutineContext.cancel()
-  }
+  private val flow = LoginFlow(authRepository, viewModelScope)
 
   fun addOnStateChangeListener(listener: (state: State<*, *>, flow: Flow) -> Unit) {
     flow.addOnStateChangeListener { state, flow ->
-      uiScope.launch { listener(state, flow) }
+      viewModelScope.launch { listener(state, flow) }
     }
   }
 

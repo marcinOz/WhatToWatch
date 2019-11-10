@@ -27,16 +27,13 @@ class DataProviderImp(private val apiService: ApiService,
     .subscribeOn(Schedulers.io())
     .observeOn(AndroidSchedulers.mainThread())
 
-  override fun fetchRemoteConfig(activity: Activity): Completable =
-    firebaseRemoteConfigMediator.fetch(activity)
+  override suspend fun fetchRemoteConfig() = firebaseRemoteConfigMediator.fetch()
 
-  override fun getConfiguration(): Single<Configuration> =
+  override suspend fun getConfiguration(): Configuration =
     apiService.getConfiguration(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
-      .withDefaultThreads()
 
-  override fun getLanguages(): Single<List<Language>> =
+  override suspend fun getLanguages(): List<Language> =
     apiService.getLanguages(API_VERSION, firebaseRemoteConfigMediator.getTMDbApiKey())
-      .withDefaultThreads()
 
   override fun getMovieDetailsById(movieId: Int): Single<MovieDetails> =
     apiService.getMovieDetailsById(API_VERSION, movieId, firebaseRemoteConfigMediator.getTMDbApiKey())

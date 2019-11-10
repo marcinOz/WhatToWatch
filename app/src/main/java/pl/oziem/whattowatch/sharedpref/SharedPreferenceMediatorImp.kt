@@ -41,14 +41,22 @@ class SharedPreferenceMediatorImp(val context: Context) : SharedPreferenceMediat
       putStringSet(STILL_SIZES, imagesConfiguration.stillSizes.toSet())
     }
 
+  private fun SharedPreferences.getStringOrDef(key: String, default: String): String =
+    getString(key, default)
+      ?: throw NullPointerException("Value from sharedPrefs and default are null")
+
+  private fun SharedPreferences.getStringList(key: String, default: Set<String>): List<String> =
+    getStringSet(key, default)?.toList()
+      ?: throw NullPointerException("Value from sharedPrefs and default are null")
+
   override fun hasImageConfigBeenSaved() = getSharedPref().contains(IMAGE_BASE_URL)
-  override fun getImageBaseUrl(): String = getSharedPref().getString(IMAGE_BASE_URL, "")
-  override fun getImageSecureBaseUrl(): String = getSharedPref().getString(IMAGE_SECURE_BASE_URL, "")
-  override fun getBackdropSizes() = getSharedPref().getStringSet(BACKDROP_SIZES, mutableSetOf()).toList()
-  override fun getLogoSizes() = getSharedPref().getStringSet(LOGO_SIZES, mutableSetOf()).toList()
-  override fun getPosterSizes() = getSharedPref().getStringSet(POSTER_SIZES, mutableSetOf()).toList()
-  override fun getProfileSizes() = getSharedPref().getStringSet(PROFILE_SIZES, mutableSetOf()).toList()
-  override fun getStillSizes() = getSharedPref().getStringSet(STILL_SIZES, mutableSetOf()).toList()
+  override fun getImageBaseUrl() = getSharedPref().getStringOrDef(IMAGE_BASE_URL, "")
+  override fun getImageSecureBaseUrl() = getSharedPref().getStringOrDef(IMAGE_SECURE_BASE_URL, "")
+  override fun getBackdropSizes() = getSharedPref().getStringList(BACKDROP_SIZES, mutableSetOf())
+  override fun getLogoSizes() = getSharedPref().getStringList(LOGO_SIZES, mutableSetOf())
+  override fun getPosterSizes() = getSharedPref().getStringList(POSTER_SIZES, mutableSetOf())
+  override fun getProfileSizes() = getSharedPref().getStringList(PROFILE_SIZES, mutableSetOf())
+  override fun getStillSizes() = getSharedPref().getStringList(STILL_SIZES, mutableSetOf())
 
   override fun saveLanguageConfiguration(languages: List<Language>) =
     applySharedPrefChanges {

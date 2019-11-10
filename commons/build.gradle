@@ -12,7 +12,7 @@ android {
     versionCode 1
     versionName "1.0"
 
-    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
   }
 
@@ -32,13 +32,13 @@ dependencies {
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
   // AAC
-  implementation "android.arch.lifecycle:extensions:$lifecycleVersion"
-  kapt "android.arch.lifecycle:compiler:$lifecycleVersion"
-  testImplementation "android.arch.core:core-testing:$lifecycleVersion"
+  implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+  kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
+  testImplementation 'androidx.arch.core:core-testing:2.0.0'
 
   testImplementation 'junit:junit:4.12'
-  androidTestImplementation "com.android.support.test:runner:$supportTestRunnerVersion"
-  androidTestImplementation "com.android.support.test.espresso:espresso-core:$expressoVersion"
+  androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+  androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 }
 repositories {
   mavenCentral()

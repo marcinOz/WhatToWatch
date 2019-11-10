@@ -2,8 +2,8 @@ package pl.oziem.whattowatch.details
 
 import android.app.Activity
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 import pl.oziem.whattowatch.R

@@ -2,15 +2,15 @@ package pl.oziem.whattowatch.main
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.core.app.ActivityOptionsCompat
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -167,5 +167,5 @@ class MovieListActivity : AppCompatActivity() {
     startActivityForResult(intent, DETAILS_ACTIVITY_CODE, options.toBundle())
   }
 
-  private fun Pair<View, String>.toJavaPair() = android.support.v4.util.Pair(first, second)
+  private fun Pair<View, String>.toJavaPair() = androidx.core.util.Pair(first, second)
 }

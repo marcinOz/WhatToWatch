@@ -1,10 +1,10 @@
 package pl.oziem.whattowatch.main
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Transformations
-import android.arch.lifecycle.ViewModel
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import io.reactivex.disposables.CompositeDisposable
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.ResourceState

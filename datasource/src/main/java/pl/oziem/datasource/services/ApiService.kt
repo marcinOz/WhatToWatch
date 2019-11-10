@@ -15,20 +15,28 @@ import retrofit2.http.Query
 interface ApiService {
 
   @GET("{version}/configuration")
-  fun getConfiguration(@Path("version") version: Int,
-                       @Query("api_key") apiKey: String): Single<Configuration>
+  suspend fun getConfiguration(
+    @Path("version") version: Int,
+    @Query("api_key") apiKey: String
+  ): Configuration
 
   @GET("{version}/configuration/languages")
-  fun getLanguages(@Path("version") version: Int,
-                   @Query("api_key") apiKey: String): Single<List<Language>>
+  suspend fun getLanguages(
+    @Path("version") version: Int,
+    @Query("api_key") apiKey: String
+  ): List<Language>
 
   @GET("{version}/movie/{id}")
-  fun getMovieDetailsById(@Path("version") version: Int, @Path("id") movieId: Int,
-                          @Query("api_key") apiKey: String): Single<MovieDetails>
+  fun getMovieDetailsById(
+    @Path("version") version: Int, @Path("id") movieId: Int,
+    @Query("api_key") apiKey: String
+  ): Single<MovieDetails>
 
   @GET("{version}/discover/movie")
-  fun getMovieDiscover(@Path("version") version: Int,
-                       @Query("api_key") apiKey: String,
-                       @Query("page") page: Int,
-                       @Query("include_adult") includeAdult: Boolean = false): Single<MovieDiscoveryResponse>
+  fun getMovieDiscover(
+    @Path("version") version: Int,
+    @Query("api_key") apiKey: String,
+    @Query("page") page: Int,
+    @Query("include_adult") includeAdult: Boolean = false
+  ): Single<MovieDiscoveryResponse>
 }

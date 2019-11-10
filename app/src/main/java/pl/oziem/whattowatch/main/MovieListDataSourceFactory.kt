@@ -1,7 +1,7 @@
 package pl.oziem.whattowatch.main
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.paging.DataSource
+import androidx.lifecycle.MutableLiveData
+import androidx.paging.DataSource
 import io.reactivex.disposables.CompositeDisposable
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.movie.Movie

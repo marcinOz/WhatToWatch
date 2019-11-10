@@ -1,7 +1,5 @@
 package pl.oziem.datasource.dataprovider
 
-import android.app.Activity
-import io.reactivex.Completable
 import io.reactivex.Single
 import pl.oziem.datasource.models.Language
 import pl.oziem.datasource.models.configuration.Configuration
@@ -13,8 +11,8 @@ import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
 */
 interface DataProvider {
   fun getMovieDetailsById(movieId: Int): Single<MovieDetails>
-  fun fetchRemoteConfig(activity: Activity): Completable
+  suspend fun fetchRemoteConfig()
   fun getMovieDiscover(page: Int): Single<MovieDiscoveryResponse>
-  fun getConfiguration(): Single<Configuration>
-  fun getLanguages(): Single<List<Language>>
+  suspend fun getConfiguration(): Configuration
+  suspend fun getLanguages(): List<Language>
 }

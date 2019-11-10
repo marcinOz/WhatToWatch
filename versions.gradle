@@ -22,8 +22,8 @@ ext {
   firebaseAuthVersion = '16.0.4'
 
   okHttpVersion = '3.10.0'
-  retrofitVersion = '2.3.0'
-  moshiVersion = '1.6.0'
+  retrofitVersion = '2.6.1'
+  moshiVersion = '1.9.1'
 
   glideVersion = '4.9.0'
 

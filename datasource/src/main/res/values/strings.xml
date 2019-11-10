@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">datasource</string>
     <string name="base_url">https://api.themoviedb.org</string>
-  <string name="remote_config_fetch_failed">Firebase RemoteConfig Fetch Failed</string>
 </resources>

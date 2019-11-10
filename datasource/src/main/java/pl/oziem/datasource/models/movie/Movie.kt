@@ -1,7 +1,7 @@
 package pl.oziem.datasource.models.movie
 
 import android.os.Parcelable
-import android.support.v7.util.DiffUtil
+import androidx.recyclerview.widget.DiffUtil
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 

@@ -1,7 +1,7 @@
 package pl.oziem.commons
 
-import android.arch.lifecycle.*
-import android.support.v4.app.FragmentActivity
+import androidx.lifecycle.*
+import androidx.fragment.app.FragmentActivity
 
 /**
  * Created by marcinoziem

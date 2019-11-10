@@ -2,10 +2,10 @@ package pl.oziem.whattowatch.profile
 
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
-import android.support.v7.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.app.AppCompatActivity
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
 import dagger.android.AndroidInjection
