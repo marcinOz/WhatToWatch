@@ -28,22 +28,17 @@ android {
 }
 
 dependencies {
+  implementation project(':commons')
+
   implementation 'androidx.recyclerview:recyclerview:1.0.0'
-
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-
-  implementation "com.google.dagger:dagger:$daggerVersion"
-  kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-  implementation "com.google.dagger:dagger-android:$daggerVersion"
-  implementation ("com.google.dagger:dagger-android-support:$daggerVersion") {
-    exclude group: 'com.android.support'
-  }
-  // if you use the support libraries
-  kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
   // Moshi
   api "com.squareup.moshi:moshi:$moshiVersion"
   implementation "com.squareup.moshi:moshi-kotlin:$moshiVersion"
+
+  // Dagger
+  kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+  kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
   // Retrofit
   implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"

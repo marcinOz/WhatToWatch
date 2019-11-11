@@ -4,15 +4,16 @@ import com.mboudraa.flow.Flow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import pl.oziem.commons.EmailValidator
-import pl.oziem.commons.withDispatcherIO
-import pl.oziem.datasource.auth.AuthError
 import pl.oziem.datasource.auth.AuthRepository
 import pl.oziem.whattowatch.signin.model.SignInFields
 import pl.oziem.whattowatch.signin.states.*
+import pl.oziem.whattowatch.signin.usecase.CheckCredentialsUseCase
+import pl.oziem.whattowatch.signin.usecase.TryToSignInUseCase
 
 class LoginFlow(
   authRepository: AuthRepository,
-  private val uiScope: CoroutineScope
+  private val viewModelScope: CoroutineScope,
+  private val tryToSignInUseCase: TryToSignInUseCase
 ) : Flow({
 
   startWith(LoginFormState, SignInFields(email = ""))
@@ -55,32 +56,12 @@ class LoginFlow(
 
   onTransition { flow, transition, action ->
     when (transition) {
-      LoginFormState to CheckCredentialsState -> checkCredentials(flow)
-      CheckCredentialsState to LoadingState -> uiScope.launch { tryToSignIn(authRepository, flow) }
+      LoginFormState to CheckCredentialsState -> CheckCredentialsUseCase.checkCredentials(flow)
+      CheckCredentialsState to LoadingState -> viewModelScope.launch {
+        tryToSignInUseCase.tryToSignIn(authRepository, flow)
+      }
     }
   }
 })
 
-private fun checkCredentials(flow: Flow) {
-  val credentials = CheckCredentialsState.getData(flow)
-  val signInFields = SignInFields(
-    credentials.email,
-    EmailValidator.isValid(credentials.email),
-    credentials.password.isNotEmpty()
-  )
-  if (signInFields.areValid) {
-    CheckCredentialsState.success(flow, credentials)
-  } else {
-    CheckCredentialsState.error(flow, signInFields)
-  }
-}
 
-private suspend fun tryToSignIn(authRepository: AuthRepository, flow: Flow) {
-  val credentials = LoadingState.getData(flow)
-  try {
-    val profile = withDispatcherIO { authRepository.signIn(credentials) }
-    LoadingState.success(flow, profile)
-  } catch (e: AuthError) {
-    LoadingState.error(flow, e)
-  }
-}

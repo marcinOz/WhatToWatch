@@ -16,7 +16,6 @@ import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.AndroidInjection
 import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_splash.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import pl.oziem.commons.observe
 import pl.oziem.commons.withViewModel

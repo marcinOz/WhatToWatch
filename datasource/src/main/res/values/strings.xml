@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">datasource</string>
-    <string name="base_url">https://api.themoviedb.org</string>
+    <string name="base_url" translatable="false">https://api.themoviedb.org</string>
 </resources>

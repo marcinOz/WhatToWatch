@@ -1,28 +1,21 @@
 package pl.oziem.whattowatch.profile
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import android.net.Uri
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import pl.oziem.commons.withDispatcherIO
+import kotlinx.coroutines.withContext
+import pl.oziem.commons.CoroutineContextProvider
 import pl.oziem.datasource.auth.AuthRepository
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(
-  private val authRepository: AuthRepository
+  private val authRepository: AuthRepository,
+  private val contextProvider: CoroutineContextProvider
 ) : ViewModel() {
 
-  private val uiScope = CoroutineScope(Dispatchers.Main)
-
   val state = MutableLiveData<ProfileState>()
-
-  override fun onCleared() {
-    super.onCleared()
-    uiScope.coroutineContext.cancel()
-  }
 
   fun downloadUser() {
     authRepository.getUser()?.let {
@@ -30,8 +23,8 @@ class ProfileViewModel @Inject constructor(
     }
   }
 
-  fun signOut() = uiScope.launch {
-    withDispatcherIO {
+  fun signOut() = viewModelScope.launch {
+    withContext(contextProvider.IO) {
       authRepository.signOut()
     }
     state.value = ProfileState.SigningOut

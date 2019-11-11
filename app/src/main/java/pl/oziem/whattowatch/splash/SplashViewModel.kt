@@ -3,8 +3,8 @@ package pl.oziem.whattowatch.splash
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import pl.oziem.commons.CoroutineContextProvider
 import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.ErrorState
 import pl.oziem.datasource.models.LoadingState
@@ -18,10 +18,11 @@ import javax.inject.Inject
  */
 class SplashViewModel @Inject constructor(
   private val dataProvider: DataProvider,
-  private val sharedPrefMediator: SharedPreferenceMediator
+  private val sharedPrefMediator: SharedPreferenceMediator,
+  contextProvider: CoroutineContextProvider
 ) : ViewModel() {
 
-  val fetchedData = liveData(Dispatchers.IO) {
+  val fetchedData = liveData(contextProvider.IO) {
     emit(LoadingState)
     try {
       dataProvider.fetchRemoteConfig()
