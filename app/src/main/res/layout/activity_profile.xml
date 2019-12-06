@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  android:id="@+id/activity_splash"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".profile.ProfileActivity">
@@ -35,7 +34,8 @@
     android:src="@drawable/primary_small_circle"
     app:layout_constraintCircle="@+id/circle"
     app:layout_constraintCircleRadius="135dp"
-    app:layout_constraintCircleAngle="90"/>
+    app:layout_constraintCircleAngle="90"
+    tools:ignore="MissingConstraints" />
 
   <ImageView
     android:id="@+id/dot2"
@@ -44,7 +44,8 @@
     android:src="@drawable/primary_small_circle"
     app:layout_constraintCircle="@+id/circle"
     app:layout_constraintCircleRadius="140dp"
-    app:layout_constraintCircleAngle="30"/>
+    app:layout_constraintCircleAngle="30"
+    tools:ignore="MissingConstraints" />
 
   <ImageView
     android:id="@+id/dot3"
@@ -53,7 +54,8 @@
     android:src="@drawable/primary_small_circle"
     app:layout_constraintCircle="@+id/circle"
     app:layout_constraintCircleRadius="140dp"
-    app:layout_constraintCircleAngle="230"/>
+    app:layout_constraintCircleAngle="230"
+    tools:ignore="MissingConstraints" />
 
   <ImageView
     android:id="@+id/userImage"

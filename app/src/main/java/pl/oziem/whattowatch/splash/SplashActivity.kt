@@ -4,9 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.view.animation.ScaleAnimation
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +20,7 @@ import pl.oziem.datasource.models.ErrorState
 import pl.oziem.datasource.models.PopulatedState
 import pl.oziem.datasource.models.ResourceState
 import pl.oziem.whattowatch.R
+import pl.oziem.whattowatch.extensions.awaitTransitionEnd
 import pl.oziem.whattowatch.main.MovieListActivity
 import javax.inject.Inject
 
@@ -32,13 +30,10 @@ class SplashActivity : AppCompatActivity() {
 
   companion object {
     private const val SHORT_DELAY = 500L
-    private const val LONG_DELAY = SHORT_DELAY * 2
   }
 
   @Inject
   lateinit var viewModelFactory: ViewModelProvider.Factory
-  private val scaleAnimation: Animation = getScaleAnimation()
-  private val fadeAnimation: Animation = getFadeAnimation()
   @Volatile
   private var animationFinished = false
   @Volatile
@@ -61,33 +56,11 @@ class SplashActivity : AppCompatActivity() {
     initAnimation()
   }
 
-  private fun getScaleAnimation() = ScaleAnimation(
-    0f, 1f, 0f, 1f,
-    Animation.RELATIVE_TO_SELF, 0.5f,
-    Animation.RELATIVE_TO_SELF, 0.5f
-  ).apply {
-    duration = LONG_DELAY
-  }
-
-  private fun getFadeAnimation() = AlphaAnimation(0f, 1f).apply {
-    duration = SHORT_DELAY
-    isFillEnabled = true
-    fillAfter = true
-  }
-
   private fun initAnimation() = lifecycleScope.launchWhenResumed {
-    appImage.alpha = 0f
-    appName.alpha = 0f
-    circle.startAnimation(scaleAnimation)
     delay(SHORT_DELAY)
-
-    appImage.startAnimation(fadeAnimation)
-    appName.startAnimation(fadeAnimation)
-    appImage.alpha = 1f
-    appName.alpha = 1f
-
-    delay(LONG_DELAY)
-
+    motionLayout.transitionToEnd()
+    motionLayout.awaitTransitionEnd()
+    delay(SHORT_DELAY)
     animationFinished = true
     startHomeActivity()
   }

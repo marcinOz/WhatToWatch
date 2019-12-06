@@ -12,10 +12,6 @@ import pl.oziem.datasource.models.PopulatedState
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 import javax.inject.Inject
 
-/**
- * Created by marcinoziem
- * on 14/06/2018 WhatToWatch.
- */
 class SplashViewModel @Inject constructor(
   private val dataProvider: DataProvider,
   private val sharedPrefMediator: SharedPreferenceMediator,

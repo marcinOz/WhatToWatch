@@ -39,13 +39,13 @@ dependencies {
   kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
   // AAC
-  implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
-  kapt 'androidx.lifecycle:lifecycle-compiler:2.0.0'
-  testImplementation 'androidx.arch.core:core-testing:2.0.0'
+  implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+  kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
+  testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
 
   testImplementation 'junit:junit:4.12'
   androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-  androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+  androidTestImplementation "androidx.test.espresso:espresso-core:$expressoVersion"
 }
 repositories {
   mavenCentral()
