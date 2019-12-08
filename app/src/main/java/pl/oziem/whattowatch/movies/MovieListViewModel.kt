@@ -1,4 +1,4 @@
-package pl.oziem.whattowatch.main
+package pl.oziem.whattowatch.movies
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -11,10 +11,6 @@ import pl.oziem.datasource.models.ResourceState
 import pl.oziem.datasource.models.movie.Movie
 import javax.inject.Inject
 
-/**
- * Created by marcinoziem
- * on 13/06/2018 WhatToWatch.
- */
 class MovieListViewModel @Inject constructor(dataProvider: DataProvider) : ViewModel() {
 
   val pagedListData: LiveData<PagedList<Movie>>

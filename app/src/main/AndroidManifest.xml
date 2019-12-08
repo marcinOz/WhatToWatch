@@ -24,17 +24,21 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".main.MovieListActivity"
+      android:name=".main.MainActivity"
+      android:label="@string/app_name"
+      android:theme="@style/AppTheme.NoActionBar"/>
+    <activity
+      android:name=".movies.MovieListFragment"
       android:label="@string/app_name"
       android:theme="@style/AppTheme.NoActionBar"/>
     <activity
       android:name=".details.MovieDetailActivity"
       android:label="@string/title_movie_detail"
-      android:parentActivityName=".main.MovieListActivity"
+      android:parentActivityName=".movies.MovieListFragment"
       android:theme="@style/AppTheme.NoActionBar">
       <meta-data
         android:name="android.support.PARENT_ACTIVITY"
-        android:value="pl.oziem.whattowatch.main.MovieListActivity" />
+        android:value="pl.oziem.whattowatch.movies.MovieListFragment" />
     </activity>
     <activity
       android:name=".profile.ProfileActivity"

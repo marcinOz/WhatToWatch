@@ -16,7 +16,7 @@ import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
-import pl.oziem.whattowatch.main.MovieListViewModel
+import pl.oziem.whattowatch.movies.MovieListViewModel
 import java.util.*
 
 class MovieListViewModelTest {
@@ -41,7 +41,9 @@ class MovieListViewModelTest {
     `when`(dataProvider.getMovieDiscover(ArgumentMatchers.anyInt())).thenReturn(Single.create { e -> e.block() })
   }
 
-  private fun initializeViewModel() = MovieListViewModel(dataProvider)
+  private fun initializeViewModel() = MovieListViewModel(
+    dataProvider
+  )
     .apply {
       getLoadState().observeForever(stateObserver)
       pagedListData.observeForever(pagingListObserver)

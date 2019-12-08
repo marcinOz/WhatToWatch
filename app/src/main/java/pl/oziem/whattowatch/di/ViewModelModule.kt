@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
-import pl.oziem.whattowatch.main.MovieListViewModel
+import pl.oziem.whattowatch.movies.MovieListViewModel
 import pl.oziem.whattowatch.profile.ProfileViewModel
 import pl.oziem.whattowatch.signin.SignInViewModel
 import pl.oziem.whattowatch.splash.SplashViewModel
@@ -15,10 +15,6 @@ import javax.inject.Provider
 import javax.inject.Singleton
 import kotlin.reflect.KClass
 
-/**
- * Created by marcinoziem
- * on 13/06/2018 WhatToWatch.
- */
 @Singleton
 class ViewModelFactory @Inject constructor(
   private val viewModels: MutableMap<Class<out ViewModel>, Provider<ViewModel>>

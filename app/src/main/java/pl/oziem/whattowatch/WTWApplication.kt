@@ -5,8 +5,9 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
+import dagger.android.HasAndroidInjector
 import pl.oziem.datasource.analytics.AnalyticsMediator
 import pl.oziem.whattowatch.di.AppComponent
 import pl.oziem.whattowatch.di.DaggerAppComponent
@@ -17,7 +18,7 @@ import javax.inject.Inject
 * Created by Marcin Oziemski on 01.03.2018 WhatToWatch.
 */
 // WTW - What To Watch
-class WTWApplication : Application(), HasActivityInjector, Application.ActivityLifecycleCallbacks {
+class WTWApplication : Application(), HasAndroidInjector, Application.ActivityLifecycleCallbacks {
 
   companion object {
     fun getComponent(context: Context) =
@@ -33,7 +34,7 @@ class WTWApplication : Application(), HasActivityInjector, Application.ActivityL
   }
 
   @Inject
-  lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
+  lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Any>
   @Inject
   lateinit var analyticsMediator: AnalyticsMediator
   lateinit var appComponent: AppComponent
@@ -49,9 +50,7 @@ class WTWApplication : Application(), HasActivityInjector, Application.ActivityL
     appComponent.inject(this)
   }
 
-  override fun activityInjector(): DispatchingAndroidInjector<Activity> {
-    return activityDispatchingAndroidInjector
-  }
+  override fun androidInjector(): AndroidInjector<Any> = activityDispatchingAndroidInjector
 
   override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
     analyticsMediator.onActivityCreate(activity)

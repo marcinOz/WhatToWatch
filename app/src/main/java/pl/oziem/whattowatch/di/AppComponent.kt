@@ -11,23 +11,23 @@ import pl.oziem.whattowatch.image_loader.ImageLoader
 import pl.oziem.whattowatch.sharedpref.SharedPreferenceMediator
 import javax.inject.Singleton
 
-
-/**
-* Created by Marcin Oziemski on 01.03.2018 WhatToWatch.
-*/
 @Singleton
-@Component(modules = [
-  (DataSourceModule::class),
-  (AndroidInjectionModule::class),
-  (ActivityBuilder::class),
-  (ApplicationModule::class),
-  (ViewModelModule::class)
-])
+@Component(
+  modules = [
+    (DataSourceModule::class),
+    (AndroidInjectionModule::class),
+    (ActivityBuilder::class),
+    (ApplicationModule::class),
+    (ViewModelModule::class)
+  ]
+)
 interface AppComponent {
 
   @Component.Builder
   interface Builder {
-    @BindsInstance fun application(application: Application): Builder
+    @BindsInstance
+    fun application(application: Application): Builder
+
     fun build(): AppComponent
   }
 

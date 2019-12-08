@@ -10,5 +10,5 @@
   app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
   app:spanCount="@integer/movie_list_span_count"
   android:scrollbars="vertical"
-  tools:context="pl.oziem.whattowatch.main.MovieListActivity"
+  tools:context="pl.oziem.whattowatch.movies.MovieListFragment"
   tools:listitem="@layout/movie_list_content" />

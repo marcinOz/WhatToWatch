@@ -1,17 +1,17 @@
 package pl.oziem.whattowatch
 
+import android.view.View
+import android.view.ViewGroup
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.matcher.ViewMatchers.*
-import android.view.View
-import android.view.ViewGroup
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.TypeSafeMatcher
-import pl.oziem.whattowatch.main.MovieListAdapter.ViewHolder
+import pl.oziem.whattowatch.movies.MovieListAdapter.ViewHolder
 import java.util.concurrent.TimeUnit
 
 /** Created by marcinoziem on 20/03/2018 WhatToWatch.

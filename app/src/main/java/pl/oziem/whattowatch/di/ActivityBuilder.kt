@@ -2,30 +2,28 @@ package pl.oziem.whattowatch.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import pl.oziem.whattowatch.main.MovieListActivity
+import pl.oziem.whattowatch.main.MainActivity
+import pl.oziem.whattowatch.main.MainActivityModule
 import pl.oziem.whattowatch.profile.ProfileActivity
 import pl.oziem.whattowatch.signin.SignInActivity
 import pl.oziem.whattowatch.splash.SplashActivity
 
-/**
-* Created by Marcin Oziemski on 01.03.2018 WhatToWatch.
-*/
 @Module
 abstract class ActivityBuilder {
 
-  @ContributesAndroidInjector()
+  @ContributesAndroidInjector
   @ActivityScope
   abstract fun bindSplashActivity(): SplashActivity
 
-  @ContributesAndroidInjector()
+  @ContributesAndroidInjector(modules = [(MainActivityModule::class)])
   @ActivityScope
-  abstract fun bindMovieListActivity(): MovieListActivity
+  abstract fun bindMainActivity(): MainActivity
 
-  @ContributesAndroidInjector()
+  @ContributesAndroidInjector
   @ActivityScope
   abstract fun bindSignInActivity(): SignInActivity
 
-  @ContributesAndroidInjector()
+  @ContributesAndroidInjector
   @ActivityScope
   abstract fun bindProfileActivity(): ProfileActivity
 }

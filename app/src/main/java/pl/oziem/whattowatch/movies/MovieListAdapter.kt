@@ -1,21 +1,17 @@
-package pl.oziem.whattowatch.main
+package pl.oziem.whattowatch.movies
 
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.movie_list_content.view.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.WTWApplication
 
-/**
- * Created by marcinoziem
- * on 26/06/2018 WhatToWatch.
- */
 class MovieListAdapter(private val onItemClick: (Movie, Array<View>) -> Unit)
   : PagedListAdapter<Movie, RecyclerView.ViewHolder>(Movie.DIFF_CALLBACK) {
 

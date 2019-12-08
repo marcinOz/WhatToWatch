@@ -7,7 +7,7 @@
   android:divider="?android:attr/dividerHorizontal"
   android:orientation="horizontal"
   android:showDividers="middle"
-  tools:context="pl.oziem.whattowatch.main.MovieListActivity">
+  tools:context="pl.oziem.whattowatch.movies.MovieListFragment">
 
   <!--
   This layout is a two-pane layout for the Movies
@@ -24,7 +24,7 @@
     app:layoutManager="GridLayoutManager"
     app:spanCount="@integer/movie_list_span_count"
     android:scrollbars="vertical"
-    tools:context="pl.oziem.whattowatch.main.MovieListActivity"
+    tools:context="pl.oziem.whattowatch.movies.MovieListFragment"
     tools:listitem="@layout/movie_list_content" />
 
   <FrameLayout

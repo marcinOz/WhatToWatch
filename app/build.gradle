@@ -53,8 +53,13 @@ dependencies {
   implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
   kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
   testImplementation "androidx.arch.core:core-testing:$lifecycleVersion"
-  // AAC Paging
+
+  // Paging
   implementation "androidx.paging:paging-runtime:$lifecycleVersion"
+
+  // Navigation
+  implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+  implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
   // Google Play Services
   implementation "com.google.android.gms:play-services-base:$gmsVersion"

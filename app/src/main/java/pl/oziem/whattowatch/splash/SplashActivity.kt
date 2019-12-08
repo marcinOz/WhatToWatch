@@ -21,7 +21,7 @@ import pl.oziem.datasource.models.PopulatedState
 import pl.oziem.datasource.models.ResourceState
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.extensions.awaitTransitionEnd
-import pl.oziem.whattowatch.main.MovieListActivity
+import pl.oziem.whattowatch.main.MainActivity
 import javax.inject.Inject
 
 /** Created by Marcin Oziemski on 11/03/2018 WhatToWatch.
@@ -95,7 +95,7 @@ class SplashActivity : AppCompatActivity() {
       R.anim.abc_fade_out
     )
     runOnUiThread {
-      startActivity(Intent(this, MovieListActivity::class.java), options.toBundle())
+      startActivity(Intent(this, MainActivity::class.java), options.toBundle())
     }
     finish()
   }

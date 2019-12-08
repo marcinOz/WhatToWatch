@@ -8,6 +8,7 @@
   <string name="poster">poster</string>
   <string name="title">title</string>
   <string name="subtitle">Release Date: %1$s \nOriginal Language: %2$s</string>
+  <string name="movies">Movies</string>
   <string name="profile">Profile</string>
   <string name="email">Email</string>
   <string name="password">Password</string>
