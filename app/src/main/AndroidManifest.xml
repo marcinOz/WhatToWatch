@@ -41,10 +41,6 @@
         android:value="pl.oziem.whattowatch.movies.MovieListFragment" />
     </activity>
     <activity
-      android:name=".profile.ProfileActivity"
-      android:label="@string/profile"
-      android:theme="@style/AppTheme.NoActionBar"/>
-    <activity
       android:name=".signin.SignInActivity"
       android:label="@string/signin"
       android:windowSoftInputMode="adjustResize"

@@ -3,11 +3,16 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/nav_graph"
-  app:startDestination="@id/movieListFragment">
+  app:startDestination="@id/movies">
 
   <fragment
-    android:id="@+id/movieListFragment"
+    android:id="@+id/movies"
     android:name="pl.oziem.whattowatch.movies.MovieListFragment"
     android:label="activity_movie_list"
     tools:layout="@layout/fragment_movie_list" />
+  <fragment
+    android:id="@+id/profile"
+    android:name="pl.oziem.whattowatch.profile.ProfileFragment"
+    android:label="fragment_profile"
+    tools:layout="@layout/fragment_profile" />
 </navigation>

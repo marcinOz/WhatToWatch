@@ -1,15 +1,15 @@
 package pl.oziem.whattowatch.signin
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.annotation.MainThread
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.BounceInterpolator
 import android.view.animation.TranslateAnimation
+import androidx.annotation.MainThread
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.mboudraa.flow.Flow
 import com.mboudraa.flow.State
@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_signin.*
 import pl.oziem.commons.getViewModel
 import pl.oziem.datasource.auth.AuthError
 import pl.oziem.whattowatch.R
-import pl.oziem.whattowatch.profile.ProfileActivity
 import pl.oziem.whattowatch.signin.states.AuthenticatedState
 import pl.oziem.whattowatch.signin.states.ErrorState
 import pl.oziem.whattowatch.signin.states.LoadingState
@@ -97,10 +96,14 @@ class SignInActivity : AppCompatActivity() {
       }
       is AuthenticatedState -> {
         stopLoadingAnimation()
-        ProfileActivity.start(this@SignInActivity)
+        goToPrevView()
         finish()
       }
     }
+  }
+
+  private fun goToPrevView() {
+    // TODO: need implementation
   }
 
   private fun showErrorDialog(error: AuthError) = when (error) {

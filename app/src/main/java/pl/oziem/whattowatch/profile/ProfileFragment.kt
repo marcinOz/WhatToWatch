@@ -1,34 +1,27 @@
 package pl.oziem.whattowatch.profile
 
 import android.animation.ValueAnimator
-import android.app.Activity
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.widget.ImageView
-import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_profile.*
-import org.jetbrains.anko.startActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.ViewModelProvider
+import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_profile.*
 import pl.oziem.commons.observe
 import pl.oziem.commons.withViewModel
 import pl.oziem.whattowatch.R
-import pl.oziem.whattowatch.extensions.isUserSignedIn
 import pl.oziem.whattowatch.image_loader.ImageLoader
-import pl.oziem.whattowatch.signin.SignInActivity
 import javax.inject.Inject
 
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileFragment : DaggerFragment() {
 
   companion object {
-    fun start(activity: Activity) =
-      if (activity.isUserSignedIn()) {
-        activity.startActivity<ProfileActivity>()
-      } else {
-        activity.startActivity<SignInActivity>()
-      }
+    private const val CIRCLE_MAX_DEGREE = 359f
   }
 
   @Inject
@@ -43,12 +36,14 @@ class ProfileActivity : AppCompatActivity() {
     }
   }
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    AndroidInjection.inject(this)
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_profile)
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View = inflater.inflate(R.layout.fragment_profile, container, false)
 
-    backArrow.setOnClickListener { onBackPressed() }
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
     signOutButton.setOnClickListener { viewModel.signOut() }
     viewModel.downloadUser()
     initDotAnimation()
@@ -57,16 +52,17 @@ class ProfileActivity : AppCompatActivity() {
   private fun onStateChange(state: ProfileState) = when(state) {
     is ProfileState.Idle -> {
       state.image?.let {
-        imageLoader.with(this)
+        imageLoader.with(requireContext())
           .load(it.toString())
           .into(userImage)
       }
       userName.text = state.name
     }
-    ProfileState.SigningOut -> {
-      startActivity<SignInActivity>()
-      finish()
-    }
+    ProfileState.SigningOut -> goToSignInVIew()
+  }
+
+  private fun goToSignInVIew() {
+    // TODO: need implementation
   }
 
   private fun initDotAnimation() {
@@ -77,8 +73,8 @@ class ProfileActivity : AppCompatActivity() {
 
   private fun ImageView.animateOrbit(orbitDuration: Long, reverse: Boolean = false) {
     val anim =
-      if (reverse) ValueAnimator.ofFloat(359f, 0f)
-      else ValueAnimator.ofFloat(0f, 359f)
+      if (reverse) ValueAnimator.ofFloat(CIRCLE_MAX_DEGREE, 0f)
+      else ValueAnimator.ofFloat(0f, CIRCLE_MAX_DEGREE)
     anim.addUpdateListener { valueAnimator ->
       val value = valueAnimator.animatedValue as Float
       val layoutParams = this.layoutParams as ConstraintLayout.LayoutParams
