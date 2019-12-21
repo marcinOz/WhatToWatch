@@ -1,60 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:padding="16dp"
   tools:context="pl.oziem.whattowatch.details.MovieDetailFragment">
 
   <ImageView
-    android:id="@+id/poster"
+    android:id="@+id/posterImage"
     android:layout_width="wrap_content"
     android:layout_height="200dp"
-    android:transitionName="@string/poster"
+    android:contentDescription="@string/poster"
     android:scaleType="fitStart"
-    tools:background="#000"
+    android:transitionName="@string/poster"
     app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:background="#000"
     tools:src="@drawable/vod_default_poster" />
 
   <TextView
-    android:id="@+id/title"
+    android:id="@+id/titleText"
+    style="?android:attr/textAppearanceLarge"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:transitionName="@string/title"
-    style="?android:attr/textAppearanceLarge"
-    tools:text="Title Lorem ipsum very very long"
-    android:maxLines="2"
     android:layout_marginStart="@dimen/margin_small"
-    app:layout_constraintLeft_toRightOf="@+id/poster"
-    app:layout_constraintRight_toRightOf="parent"/>
+    android:maxLines="2"
+    android:transitionName="@string/title"
+    app:layout_constraintLeft_toRightOf="@+id/posterImage"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:text="Title Lorem ipsum very very long" />
 
   <TextView
-    android:id="@+id/subtitle"
+    android:id="@+id/subtitleText"
+    style="?android:attr/textAppearance"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    style="?android:attr/textAppearance"
-    tools:text="Title Lorem ipsum very very long"
     android:layout_marginStart="@dimen/margin_small"
-    app:layout_constraintLeft_toRightOf="@+id/poster"
+    app:layout_constraintLeft_toRightOf="@+id/posterImage"
     app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/title"/>
+    app:layout_constraintTop_toBottomOf="@+id/titleText"
+    tools:text="Title Lorem ipsum very very long" />
 
   <TextView
     android:id="@+id/overview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_small"
+    android:text="@string/overview"
     android:textIsSelectable="true"
     android:textStyle="bold"
-    android:text="Overview"
-    android:layout_marginTop="@dimen/margin_small"
-    app:layout_constraintTop_toBottomOf="@+id/poster" />
+    app:layout_constraintTop_toBottomOf="@+id/posterImage" />
 
   <TextView
-    android:id="@+id/movie_detail"
+    android:id="@+id/movieDescription"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:textIsSelectable="true"
-    tools:text="Some description"
-    app:layout_constraintTop_toBottomOf="@+id/overview" />
+    app:layout_constraintTop_toBottomOf="@+id/overview"
+    tools:text="Some description" />
 </androidx.constraintlayout.widget.ConstraintLayout>

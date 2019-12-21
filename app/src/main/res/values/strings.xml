@@ -29,4 +29,5 @@
   <string name="network_error_message">Check if you have working internet connection.</string>
   <string name="unexpected_error_title">Unexpected Error</string>
   <string name="unexpected_error_message">Something when wrong, sorry for inconvenience.</string>
+  <string name="overview">Overview</string>
 </resources>

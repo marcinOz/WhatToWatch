@@ -21,7 +21,7 @@ class MovieListAdapter(private val onItemClick: (Movie, Array<View>) -> Unit)
   init {
     mOnClickListener = View.OnClickListener { v ->
       val item = v.tag as Movie
-      onItemClick(item, arrayOf(v.title, v.poster))
+      onItemClick(item, arrayOf(v.titleText, v.posterImage))
     }
   }
 
@@ -70,8 +70,8 @@ class MovieListAdapter(private val onItemClick: (Movie, Array<View>) -> Unit)
   fun isLastItemPosition(position: Int): Boolean = position == (itemCount - 1)
 
   inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-    val poster: ImageView = mView.poster
-    val title: TextView = mView.title
+    val poster: ImageView = mView.posterImage
+    val title: TextView = mView.titleText
   }
 
   inner class LoadingViewHolder(mView: View) : RecyclerView.ViewHolder(mView)

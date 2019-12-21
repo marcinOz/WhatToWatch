@@ -1,11 +1,11 @@
 package pl.oziem.whattowatch.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.movie_detail.view.*
+import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.movie_detail.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.whattowatch.R
 import pl.oziem.whattowatch.WTWApplication
@@ -30,31 +30,31 @@ class MovieDetailFragment : Fragment() {
     movie = readState(arguments)
   }
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                            savedInstanceState: Bundle?): View? {
-    val rootView = inflater.inflate(R.layout.movie_detail, container, false)
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? = inflater.inflate(R.layout.movie_detail, container, false)
 
-    val movieDetailActivity: MovieDetailActivity? = if (activity is MovieDetailActivity)
-      (activity as MovieDetailActivity) else null
-    movieDetailActivity?.setToolbarData(movie?.title, movie?.backdropPath)
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    movie?.initView()
+    (activity as? MovieDetailActivity)?.setToolbarData(movie?.title, movie?.backdropPath)
+  }
 
-    movie?.let {
-      rootView.movie_detail.text = it.overview
-      WTWApplication.getImageLoader(rootView)
-        .loadPoster(it.posterPath)
-        .listener(
-          { movieDetailActivity?.supportStartPostponedEnterTransition() },
-          { movieDetailActivity?.supportStartPostponedEnterTransition() })
-        .into(rootView.poster)
-      rootView.title.text = it.title
+  private fun Movie.initView() {
+    movieDescription.text = overview
+    WTWApplication.getImageLoader(posterImage)
+      .loadPoster(posterPath)
+      .listener(
+        { requireActivity().supportStartPostponedEnterTransition() },
+        { requireActivity().supportStartPostponedEnterTransition() })
+      .into(posterImage)
+    titleText.text = title
 
-      activity?.apply {
-        val language = WTWApplication.getSharedPrefMediator(this)
-          .getLanguageByIso(it.originalLanguage)
-        rootView.subtitle.text = getString(R.string.subtitle, it.releaseDate, language)
-      }
-    }
-    return rootView
+    val language = WTWApplication.getSharedPrefMediator(requireContext())
+      .getLanguageByIso(originalLanguage)
+    subtitleText.text = getString(R.string.subtitle, releaseDate, language)
   }
 
   fun saveState(bundle: Bundle?) = bundle?.apply {

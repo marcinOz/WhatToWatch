@@ -39,7 +39,7 @@ class MoviesMasterDetailsRobot {
   }
 
   fun checkIfMovieDetailsIsVisible(): MoviesMasterDetailsRobot = apply {
-    onView(withId(R.id.movie_detail))
+    onView(withId(R.id.movieDescription))
       .check(ViewAssertions.matches(isDisplayed()))
   }
 

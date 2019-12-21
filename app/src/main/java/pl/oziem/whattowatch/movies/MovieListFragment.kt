@@ -3,7 +3,6 @@ package pl.oziem.whattowatch.movies
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -140,12 +139,8 @@ class MovieListFragment : DaggerFragment() {
     val intent = Intent(requireContext(), MovieDetailActivity::class.java)
       .apply { putExtra(MovieDetailFragment.MOVIE_ARG, movie) }
 
-    val pairs =
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        views.map { view -> view to view.transitionName }
+    val pairs = views.map { view -> view to view.transitionName }
           .map { pair -> pair.toJavaPair() }.toTypedArray()
-      else emptyArray()
-
 
     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(requireActivity(), *pairs)
     startActivityForResult(intent, DETAILS_ACTIVITY_CODE, options.toBundle())
