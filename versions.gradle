@@ -19,9 +19,9 @@ ext {
 
   gmsVersion = '17.1.0'
 
-  firebaseCoreVersion = '16.0.4'
-  firebaseConfigVersion = '16.0.1'
-  firebaseAuthVersion = '16.0.4'
+  firebaseAnalyticsVersion = '17.2.2'
+  firebaseConfigVersion = '19.1.1'
+  firebaseAuthVersion = '19.2.0'
 
   okHttpVersion = '3.10.0'
   retrofitVersion = '2.6.1'
