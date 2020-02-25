@@ -1,5 +1,5 @@
 [![Build status](https://build.appcenter.ms/v0.1/apps/7a6fd451-f674-4483-819e-4c5ca1e2bad8/branches/master/badge?)](https://appcenter.ms)
-![Android CI](https://github.com/marcinOz/WhatToWatch/workflows/Android%20CI/badge.svg)
+![Android Pull Request & Master CI](https://github.com/marcinOz/WhatToWatch/workflows/Android%20Pull%20Request%20&%20Master%20CI/badge.svg)
 
 # WhatToWatch 
 My Playground App for Movie Library 
