@@ -1,4 +1,4 @@
-package pl.oziem.whattowatch
+package pl.oziem.whattowatch.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -16,7 +16,6 @@ import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
-import pl.oziem.whattowatch.main.MovieListViewModel
 import java.util.*
 
 class MovieListViewModelTest {
@@ -86,7 +85,7 @@ class MovieListViewModelTest {
   fun fetchMovieDiscover_test_next_page_success_with_data() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
-      movies = listOf(Movie())
+      movies = listOf(Movie(), Movie())
     )
     mockGetMovieDiscover { onSuccess(discoverResponse) }
 
@@ -99,9 +98,9 @@ class MovieListViewModelTest {
 
     pagedList?.loadAround(1)
 
-    verify(stateObserver, times(1 + MovieListViewModel.PAGE_SIZE))
+    verify(stateObserver, times(MovieListViewModel.PAGE_SIZE))
       .onChanged(LoadingState)
-    verify(stateObserver, times(1 + MovieListViewModel.PAGE_SIZE))
+    verify(stateObserver, times(MovieListViewModel.PAGE_SIZE))
       .onChanged(PopulatedState)
   }
 
@@ -109,7 +108,7 @@ class MovieListViewModelTest {
   fun fetchMovieDiscover_test_next_page_success_with_empty() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
-      movies = listOf(Movie())
+      movies = listOf(Movie(), Movie())
     )
     mockGetMovieDiscover { onSuccess(discoverResponse) }
 

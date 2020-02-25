@@ -10,6 +10,7 @@ ext {
 
   daggerVersion = '2.22.1'
 
+  ktxVersion = '2.2.0'
   lifecycleVersion = "2.1.0"
   pagingVersion = "1.0.1"
 
