@@ -45,10 +45,6 @@
       android:label="@string/signin"
       android:windowSoftInputMode="adjustResize"
       android:theme="@style/AppTheme.NoActionBar"/>
-
-    <meta-data
-      android:name="io.fabric.ApiKey"
-      android:value="7795f3390cd2ef9c8ea5b4f0dd3f329a33e7c619" />
   </application>
 
 </manifest>

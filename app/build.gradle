@@ -1,12 +1,9 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-
-repositories {
-  maven { url 'https://maven.fabric.io/public' }
-}
+apply plugin: 'io.fabric'
 
 android {
   compileSdkVersion project.compileSdkVersion
@@ -61,6 +58,10 @@ dependencies {
 
   // Google Play Services
   implementation "com.google.android.gms:play-services-base:$gmsVersion"
+
+  // Firebase
+  implementation 'com.google.firebase:firebase-analytics:17.2.2'
+  implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
   // Support Libs
   implementation 'androidx.appcompat:appcompat:1.1.0'

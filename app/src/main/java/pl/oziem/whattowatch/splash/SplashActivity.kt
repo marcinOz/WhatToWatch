@@ -8,10 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.crashlytics.android.Crashlytics
 import com.google.android.gms.common.GoogleApiAvailability
 import dagger.android.AndroidInjection
-import io.fabric.sdk.android.Fabric
 import kotlinx.android.synthetic.main.activity_splash.*
 import kotlinx.coroutines.delay
 import pl.oziem.commons.observe
@@ -42,7 +40,6 @@ class SplashActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     AndroidInjection.inject(this)
     super.onCreate(savedInstanceState)
-    Fabric.with(this, Crashlytics())
     setContentView(R.layout.activity_splash)
 
     GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this)
