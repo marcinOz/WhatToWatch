@@ -85,7 +85,7 @@ class MovieListViewModelTest {
   fun fetchMovieDiscover_test_next_page_success_with_data() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
-      movies = listOf(Movie())
+      movies = listOf(Movie(), Movie())
     )
     mockGetMovieDiscover { onSuccess(discoverResponse) }
 
@@ -98,9 +98,9 @@ class MovieListViewModelTest {
 
     pagedList?.loadAround(1)
 
-    verify(stateObserver, times(1 + MovieListViewModel.PAGE_SIZE))
+    verify(stateObserver, times(MovieListViewModel.PAGE_SIZE))
       .onChanged(LoadingState)
-    verify(stateObserver, times(1 + MovieListViewModel.PAGE_SIZE))
+    verify(stateObserver, times(MovieListViewModel.PAGE_SIZE))
       .onChanged(PopulatedState)
   }
 
@@ -108,7 +108,7 @@ class MovieListViewModelTest {
   fun fetchMovieDiscover_test_next_page_success_with_empty() {
     val discoverResponse = MovieDiscoveryResponse(
       totalResults = Random().nextInt(999) + 1,
-      movies = listOf(Movie())
+      movies = listOf(Movie(), Movie())
     )
     mockGetMovieDiscover { onSuccess(discoverResponse) }
 
