@@ -1,4 +1,4 @@
-package pl.oziem.whattowatch
+package pl.oziem.whattowatch.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
@@ -16,7 +16,6 @@ import pl.oziem.datasource.dataprovider.DataProvider
 import pl.oziem.datasource.models.*
 import pl.oziem.datasource.models.movie.Movie
 import pl.oziem.datasource.models.movie.MovieDiscoveryResponse
-import pl.oziem.whattowatch.main.MovieListViewModel
 import java.util.*
 
 class MovieListViewModelTest {
